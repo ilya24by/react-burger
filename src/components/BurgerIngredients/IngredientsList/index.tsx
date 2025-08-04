@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import data, { filterIngredientsByType } from "../../utils/data";
+import data, { filterIngredientsByType } from "../../../utils/data";
 import IngredientsListSection from "../IngredientsListSection";
 import styles from './index.module.css';
 

@@ -1,5 +1,5 @@
-import IngredientsMenu from "../IngredientsMenu";
-import IngredientsList from "../IngredientsList";
+import IngredientsMenu from "./IngredientsMenu";
+import IngredientsList from "./IngredientsList";
 
 const BurgerIngredients = () => {
     return (

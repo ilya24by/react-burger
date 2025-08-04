@@ -1,5 +1,5 @@
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Ingredient } from "../IngredientsListSection/types";
+import { Ingredient } from "../IngredientsListSection/types"
 import styles from './index.module.css';
 
 const IngredientsListSectionItem = ({ ingredient }: { ingredient: Ingredient }) => {
