@@ -11,6 +11,30 @@ body {
   color: var(--text-primary);
 }
 
+/* Global horizontal padding */
+#root {
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+}
+
+/* Responsive padding for different screen sizes */
+@media (min-width: 768px) {
+  #root {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #root {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

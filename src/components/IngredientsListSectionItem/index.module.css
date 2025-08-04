@@ -1,0 +1,13 @@
+.ingredients_list_section_item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.ingredients_list_section_item_price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
+}
