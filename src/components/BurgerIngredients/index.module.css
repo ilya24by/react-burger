@@ -1,0 +1,6 @@
+.ingredients_section {
+  border: 1px solid blue;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}

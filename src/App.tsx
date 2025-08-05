@@ -1,14 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import AppHeader from './components/AppHeader';
 import BurgerIngredients from './components/BurgerIngredients';
+import BurgerConstructor from './components/BurgerConstructor';
+import styles from './App.module.css';
 
 function App() {
   return (
     <>
       <AppHeader />
-      <BurgerIngredients />
+      <main className={styles.main}>
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </main>
+
     </>
 
   );
