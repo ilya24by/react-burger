@@ -1,15 +1,15 @@
 .order {
   display: flex;
-
+  margin-top: 40px;
   gap: 40px;
 }
 
 .constructor_section {
   display: flex;
   flex: 1;
+  max-height: 1024px;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   row-gap: 16px;
-  border: 1px solid red;
 }

@@ -7,9 +7,12 @@ function App() {
   return (
     <>
       <AppHeader />
-      <main className={styles.main}>
-        <BurgerIngredients />
-        <BurgerConstructor />
+      <main >
+        <h2 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h2>
+        <div className={styles.main}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </div>
       </main>
 
     </>
