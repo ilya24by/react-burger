@@ -3,8 +3,6 @@ import ConstructorListItem from "../ConstructorListItem";
 import styles from './index.module.css';
 
 const ConstructorList = () => {
-
-    console.log(data);
     return (
         <div className={styles.constructor_list}>
             {
