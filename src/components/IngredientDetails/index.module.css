@@ -1,0 +1,10 @@
+.ingredient_details_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text_details {
+  text-align: center;
+  color: var(--dark-grey);
+}

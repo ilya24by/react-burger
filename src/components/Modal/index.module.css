@@ -15,12 +15,6 @@
   margin-bottom: 30px;
 }
 
-.title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-}
-
 .closeButton {
   cursor: pointer;
   display: flex;
