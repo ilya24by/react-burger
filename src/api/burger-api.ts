@@ -1,3 +1,4 @@
+//NOTE: С React 17 я знаком, очень интересно попрактиковаться в 18 и 19 версиях
 'use server';
 
 const fetchIngredients = async () => {

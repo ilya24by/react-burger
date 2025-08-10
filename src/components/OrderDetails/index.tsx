@@ -1,9 +1,9 @@
-import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal";
 import styles from './index.module.css';
 import doneImage from '../../images/done.png';
+import { OrderDetailsProps } from "./types";
 
-const OrderDetails = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+const OrderDetails = ({ isOpen, onClose }: OrderDetailsProps) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className={styles.order_details_content}>

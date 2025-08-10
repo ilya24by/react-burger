@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
 import Modal from "../Modal";
-import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import styles from './index.module.css';
+import { IngredientDetailsProps } from "./types";
 
-const IngredientDetails = ({ isOpen, ingredient, onClose }: { isOpen: boolean, ingredient: Ingredient, onClose: () => void }) => {
+const IngredientDetails = ({ isOpen, ingredient, onClose }: IngredientDetailsProps) => {
     const { name, image_large, calories, proteins, fat, carbohydrates } = ingredient;
     return (
         <Modal title="Детали ингредиента" isOpen={isOpen} onClose={onClose}>

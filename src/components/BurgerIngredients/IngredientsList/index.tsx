@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { filterIngredientsByType } from "../../../utils/data";
 import IngredientsListSection from "../IngredientsListSection";
 import styles from './index.module.css';
-import { Ingredient } from "../IngredientsListSection/types";
+import { BurgerIngredientsProps } from "../types";
 
-const IngredientsList = ({ ingredients }: { ingredients: Ingredient[] }) => {
+const IngredientsList = ({ ingredients }: BurgerIngredientsProps) => {
     const ingrediendsSections = useMemo(() => filterIngredientsByType(ingredients), [ingredients]);
 
     return (

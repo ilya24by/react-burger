@@ -1,9 +1,8 @@
-import data from '../../../utils/data'
-import { Ingredient } from '../../BurgerIngredients/IngredientsListSection/types';
 import ConstructorListItem from "../ConstructorListItem";
 import styles from './index.module.css';
+import { BurgerConstructorProps } from '../types';
 
-const ConstructorList = ({ ingredients }: { ingredients: Ingredient[] }) => {
+const ConstructorList = ({ ingredients }: BurgerConstructorProps) => {
     return (
         <div className={styles.constructor_list}>
             {

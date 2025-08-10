@@ -1,8 +1,8 @@
-import { Ingredient } from "../../BurgerIngredients/IngredientsListSection/types";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
+import { ConstructorListItemProps } from "./types";
 
-const ConstructorListItem = ({ item, type }: { item: Ingredient, type: 'top' | 'bottom' | undefined }) => {
+const ConstructorListItem = ({ item, type }: ConstructorListItemProps) => {
     const { name, price, image } = item;
     return (
         <div className={styles.constructor_list_item}>

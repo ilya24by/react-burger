@@ -3,7 +3,7 @@ import { IngredientsListSectionProps } from './types';
 import IngredientsListSectionItem from '../IngredientsListSectionItem';
 import styles from './index.module.css';
 
-const IngredientsListSection: React.FC<IngredientsListSectionProps> = ({ ingredients, title }) => {
+const IngredientsListSection = ({ ingredients, title }: IngredientsListSectionProps) => {
     return (
         <div className='mt-10'>
             <h3>{title}</h3>

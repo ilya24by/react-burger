@@ -1,9 +1,9 @@
 import IngredientsMenu from "./IngredientsMenu";
 import IngredientsList from "./IngredientsList";
 import styles from './index.module.css';
-import { Ingredient } from "./IngredientsListSection/types";
+import { BurgerIngredientsProps } from './types';
 
-const BurgerIngredients = ({ ingredients }: { ingredients: Ingredient[] }) => {
+const BurgerIngredients = ({ ingredients }: BurgerIngredientsProps) => {
     return (
         <section className={styles.ingredients_section}>
             <IngredientsMenu />

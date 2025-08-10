@@ -5,8 +5,9 @@ import styles from './index.module.css';
 import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import { useState } from "react";
 import OrderDetails from "../OrderDetails";
+import { BurgerConstructorProps } from "./types";
 
-const BurgerConstructor = ({ ingredients }: { ingredients: Ingredient[] }) => {
+const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
     const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
 
     const handleCloseOrderDetails = () => {

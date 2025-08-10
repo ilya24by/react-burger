@@ -1,4 +1,4 @@
-export interface Ingredient {
+export type Ingredient = {
     _id: string;
     name: string;
     type: string;
@@ -13,7 +13,7 @@ export interface Ingredient {
     __v: number;
 }
 
-export interface IngredientsListSectionProps {
+export type IngredientsListSectionProps = {
     ingredients: Ingredient[];
     title: string;
 }
