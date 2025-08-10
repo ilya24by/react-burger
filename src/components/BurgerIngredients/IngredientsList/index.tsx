@@ -1,10 +1,11 @@
 import { useMemo } from "react";
-import data, { filterIngredientsByType } from "../../../utils/data";
+import { filterIngredientsByType } from "../../../utils/data";
 import IngredientsListSection from "../IngredientsListSection";
 import styles from './index.module.css';
+import { Ingredient } from "../IngredientsListSection/types";
 
-const IngredientsList = () => {
-    const ingrediendsSections = useMemo(() => filterIngredientsByType(data), [data]);
+const IngredientsList = ({ ingredients }: { ingredients: Ingredient[] }) => {
+    const ingrediendsSections = useMemo(() => filterIngredientsByType(ingredients), [ingredients]);
 
     return (
         <div className={styles.ingredients_list}>

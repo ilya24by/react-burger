@@ -5,13 +5,13 @@ const BurgerMenu = () => {
     const [current, setCurrent] = React.useState('one')
     return (
         <div style={{ display: 'flex' }}>
-            <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+            <Tab value="buns" active={current === 'buns'} onClick={setCurrent}>
                 Булки
             </Tab>
-            <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+            <Tab value="souses" active={current === 'souses'} onClick={setCurrent}>
                 Соусы
             </Tab>
-            <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+            <Tab value="inside" active={current === 'inside'} onClick={setCurrent}>
                 Начинка
             </Tab>
         </div>
