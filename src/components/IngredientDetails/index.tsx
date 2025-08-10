@@ -3,10 +3,10 @@ import Modal from "../Modal";
 import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import styles from './index.module.css';
 
-const IngredientDetails = ({ isOpen, ingredient }: { isOpen: boolean, ingredient: Ingredient }) => {
+const IngredientDetails = ({ isOpen, ingredient, onClose }: { isOpen: boolean, ingredient: Ingredient, onClose: () => void }) => {
     const { name, image_large, calories, proteins, fat, carbohydrates } = ingredient;
     return (
-        <Modal title="Детали ингредиента" isOpen={isOpen}>
+        <Modal title="Детали ингредиента" isOpen={isOpen} onClose={onClose}>
             <img src={image_large} alt={name} />
             <h2 className="text text_type_main-medium mb-4">{name}</h2>
             <div className={styles.ingredient_details_content}>

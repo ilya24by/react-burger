@@ -13,6 +13,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+  position: relative;
 }
 
 .closeButton {
@@ -20,6 +21,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
 }
 
 .content {

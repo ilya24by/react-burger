@@ -13,6 +13,10 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
         setIsShowIngredientDetails(true);
     };
 
+    const handleCloseIngredientDetails = () => {
+        setIsShowIngredientDetails(false);
+    };
+
     return (
         <>
             <div className={styles.ingredients_list_section_item} onClick={handleShowIngredientDetails} style={{ cursor: 'pointer' }}>
@@ -21,7 +25,7 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
                 <p className="text text_type_main-default mb-2 text-center">{name}</p>
                 <Price price={price} />
             </div>
-            <IngredientDetails isOpen={isShowIngredientDetails} ingredient={ingredient} />
+            <IngredientDetails isOpen={isShowIngredientDetails} ingredient={ingredient} onClose={handleCloseIngredientDetails} />
         </>
 
     );

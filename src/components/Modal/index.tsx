@@ -9,40 +9,12 @@ const modalRoot = document.createElement('div');
 modalRoot.id = "react-modals";
 document.body.appendChild(modalRoot);
 
-const Modal = ({ title, children, isOpen }: ModalProps) => {
-    const [isModalOpen, setIsModalOpen] = useState(isOpen);
-
-    useEffect(() => {
-        setIsModalOpen(isOpen);
-    }, [isOpen]);
-
-    useEffect(() => {
-        const handleEscapeKey = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                setIsModalOpen(false)
-            }
-        };
-
-        if (isModalOpen) {
-            document.addEventListener('keydown', handleEscapeKey);
-            document.body.style.overflow = 'hidden';
-        }
-
-        return () => {
-            document.removeEventListener('keydown', handleEscapeKey);
-            document.body.style.overflow = 'unset';
-        };
-    }, [isModalOpen]);
-
-    const onClose = () => {
-        setIsModalOpen(false);
-    };
-
+const Modal = ({ title, children, isOpen, onClose }: ModalProps) => {
     const handlePropagation = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
 
-    if (!isModalOpen) {
+    if (!isOpen) {
         return null;
     }
 
