@@ -1,0 +1,1 @@
+export const REACT_APP_BURGER_API = 'https://norma.nomoreparties.space/api'
