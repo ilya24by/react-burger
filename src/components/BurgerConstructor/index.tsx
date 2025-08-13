@@ -2,7 +2,6 @@ import ConstructorList from "./ConstructorList";
 import Price from "../../UI/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import { useState } from "react";
 import OrderDetails from "../OrderDetails";
 import { BurgerConstructorProps } from "./types";

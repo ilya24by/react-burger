@@ -10,6 +10,20 @@ modalRoot.id = "react-modals";
 document.body.appendChild(modalRoot);
 
 const Modal = ({ title, children, isOpen, onClose }: ModalProps) => {
+    useEffect(() => {
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscapeKey);
+
+        return () => {
+            document.removeEventListener('keydown', handleEscapeKey);
+        };
+    }, []);
+
     const handlePropagation = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
