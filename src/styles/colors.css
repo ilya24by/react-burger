@@ -1,0 +1,16 @@
+:root {
+  /* Figma Colors */
+  --modal-bg: #1c1c21;
+  --accent: #4c4cff;
+  --active: #4c4cff;
+  --input: #2f2f37;
+  --success: #00cccc;
+  --error: #e52b1a;
+  --bg: #131316;
+  --modal-edge: rgba(76, 76, 255, 0.2);
+  --primary-light: #f2f2f3;
+  --dark-grey: #8585ad;
+  --disabled: #3a3a55;
+  --button-normal: linear-gradient(135deg, #801ab2 0%, #4c4cff 100%);
+  --button-active: linear-gradient(135deg, #4c4cff 0%, #801ab2 100%);
+}
