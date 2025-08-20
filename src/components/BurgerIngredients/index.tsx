@@ -12,7 +12,7 @@ const BurgerIngredients = () => {
 
     useEffect(() => {
         dispatch(getIngredientsAsync());
-    }, []);
+    }, [dispatch]);
 
     if (loading) {
         return <Loader />;
@@ -25,7 +25,9 @@ const BurgerIngredients = () => {
     return (
         <section className={styles.ingredients_section}>
             <IngredientsMenu />
-            <IngredientsList ingredients={ingredients} />
+            <IngredientsList
+                ingredients={ingredients}
+            />
         </section>
     );
 };

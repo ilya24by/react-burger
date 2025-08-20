@@ -34,8 +34,6 @@ const BurgerConstructor = () => {
         return <div className={styles.error}>Не удалось загрузить конструктор бургера, произошла ошибка: {error}</div>
     }
 
-    console.log('constructorIngredients', constructorIngredients);
-
     return (
         <section className={styles.constructor_section}>
             <ConstructorList ingredients={constructorIngredients || []} />

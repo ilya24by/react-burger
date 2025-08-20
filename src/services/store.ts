@@ -3,6 +3,7 @@ import burderIngredientsReducer from './slices/ingredientsSlice';
 import constructorReducer from './slices/burgerConstructorSlice';
 import orderReducer from './slices/orderSlice';
 import ingredientDetailsModalReducer from './slices/ingredientDetailsModalSlice';
+import burgerListMenuReducer from './slices/burgerListMenuSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         burgerConstructor: constructorReducer,
         order: orderReducer,
         ingredientDetailsModal: ingredientDetailsModalReducer,
+        burgerListMenu: burgerListMenuReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });
