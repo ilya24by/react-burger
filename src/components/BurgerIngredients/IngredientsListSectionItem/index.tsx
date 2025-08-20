@@ -1,22 +1,22 @@
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
 import Price from "../../../UI/Price";
 import { IngredientListSectionItemProps } from "./types";
-import { useState } from "react";
 import IngredientDetails from "../../IngredientDetails";
-import { useAppDispatch } from "../../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { closeIngredientDetailsModal, showIngredientDetailsModal } from "../../../services/slices/ingredientDetailsModalSlice";
 
 const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemProps) => {
-    const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(false);
-    const { name, price, image, _id } = ingredient;
+    const { isShowIngredientDetails } = useAppSelector((state) => state.ingredientDetailsModal);
+    const { name, price, image } = ingredient;
     const dispatch = useAppDispatch();
 
     const handleShowIngredientDetails = () => {
-        setIsShowIngredientDetails(true);
+        dispatch(showIngredientDetailsModal(ingredient));
     };
 
     const handleCloseIngredientDetails = () => {
-        setIsShowIngredientDetails(false);
+        dispatch(closeIngredientDetailsModal());
     };
 
     return (
@@ -27,7 +27,7 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
                 <p className="text text_type_main-default mb-2 text-center">{name}</p>
                 <Price price={price} />
             </div>
-            <IngredientDetails isOpen={isShowIngredientDetails} ingredient={ingredient} onClose={handleCloseIngredientDetails} />
+            <IngredientDetails isOpen={isShowIngredientDetails} onClose={handleCloseIngredientDetails} />
         </>
 
     );

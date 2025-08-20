@@ -2,14 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import burderIngredientsReducer from './slices/ingredientsSlice';
 import constructorReducer from './slices/burgerConstructorSlice';
 import orderReducer from './slices/orderSlice';
-import currentIngredientReducer from './slices/currentIngredientSlice';
+import ingredientDetailsModalReducer from './slices/ingredientDetailsModalSlice';
 
 export const store = configureStore({
     reducer: {
         burgerIngredients: burderIngredientsReducer,
         burgerConstructor: constructorReducer,
         order: orderReducer,
-        currentIngredient: currentIngredientReducer,
+        ingredientDetailsModal: ingredientDetailsModalReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });

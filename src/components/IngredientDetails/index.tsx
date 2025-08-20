@@ -1,9 +1,14 @@
 import Modal from "../Modal";
 import styles from './index.module.css';
 import { IngredientDetailsProps } from "./types";
+import { useAppSelector } from "../../services/hooks";
 
-const IngredientDetails = ({ isOpen, ingredient, onClose }: IngredientDetailsProps) => {
-    const { name, image_large, calories, proteins, fat, carbohydrates } = ingredient;
+const IngredientDetails = ({ isOpen, onClose }: IngredientDetailsProps) => {
+    const { ingredientDetails } = useAppSelector((state) => state.ingredientDetailsModal);
+
+    if (!ingredientDetails) return null;
+
+    const { name, image_large, calories, proteins, fat, carbohydrates } = ingredientDetails;
     return (
         <Modal title="Детали ингредиента" isOpen={isOpen} onClose={onClose}>
             <img src={image_large} alt={name} />
