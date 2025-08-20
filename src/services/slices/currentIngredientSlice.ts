@@ -4,12 +4,15 @@ const currentIngredientSlice = createSlice({
     name: 'currentIngredient',
     initialState: { currentIngredient: null },
     reducers: {
-        setCurrentIngredient: (state, action) => {
+        setIngredientDetailsToModal: (state, action) => {
             state.currentIngredient = action.payload;
+        },
+        removeIngredientDetailsFromModal: (state) => {
+            state.currentIngredient = null;
         },
     },
 });
 
 
-export const { setCurrentIngredient } = currentIngredientSlice.actions;
+export const { setIngredientDetailsToModal, removeIngredientDetailsFromModal } = currentIngredientSlice.actions;
 export default currentIngredientSlice.reducer;

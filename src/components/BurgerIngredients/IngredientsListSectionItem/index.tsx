@@ -4,10 +4,12 @@ import Price from "../../../UI/Price";
 import { IngredientListSectionItemProps } from "./types";
 import { useState } from "react";
 import IngredientDetails from "../../IngredientDetails";
+import { useAppDispatch } from "../../../services/hooks";
 
 const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemProps) => {
     const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(false);
-    const { name, price, image } = ingredient;
+    const { name, price, image, _id } = ingredient;
+    const dispatch = useAppDispatch();
 
     const handleShowIngredientDetails = () => {
         setIsShowIngredientDetails(true);

@@ -2,13 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const orderSlice = createSlice({
     name: 'order',
-    initialState: { order: null, loading: false, error: null as string | null },
+    initialState: { order: null },
     reducers: {
-        setOrder: (state, action) => {
+        getOrder: (state, action) => {
+            state.order = action.payload;
+        },
+        updateOrder: (state, action) => {
             state.order = action.payload;
         },
     },
 });
 
-export const { setOrder } = orderSlice.actions;
+export const { getOrder, updateOrder } = orderSlice.actions;
 export default orderSlice.reducer;

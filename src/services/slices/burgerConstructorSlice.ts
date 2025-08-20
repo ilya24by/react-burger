@@ -1,16 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { Ingredient } from '../../components/BurgerIngredients/IngredientsListSection/types';
-
-type BurgerConstructorState = {
-    constructorIngredients: Ingredient[];
-    loading: boolean;
-    error: string | null;
-};
+import type { BurgerConstructorState } from './types';
 
 const initialState: BurgerConstructorState = {
     constructorIngredients: [],
-    loading: false,
-    error: null,
 };
 
 const burgerConstructorSlice = createSlice({
@@ -19,6 +12,12 @@ const burgerConstructorSlice = createSlice({
     reducers: {
         setConstructorIngredients: (state, action: PayloadAction<Ingredient[]>) => {
             state.constructorIngredients = action.payload;
+        },
+        addIngredient: (state, action: PayloadAction<Ingredient>) => {
+            state.constructorIngredients.push(action.payload);
+        },
+        removeIngredient: (state, action: PayloadAction<Ingredient>) => {
+            state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient._id !== action.payload._id);
         },
     },
 });
