@@ -2,12 +2,21 @@ import ConstructorList from "./ConstructorList";
 import Price from "../../UI/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderDetails from "../OrderDetails";
-import { BurgerConstructorProps } from "./types";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import Loader from "../Loader";
+import { setConstructorIngredients } from "../../services/slices/burgerConstructorSlice";
 
-const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
+const BurgerConstructor = () => {
+    const dispatch = useAppDispatch();
+    const { ingredients, loading, error } = useAppSelector((state) => state.burgerIngredients);
+    const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
     const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
+
+    useEffect(() => {
+        dispatch(setConstructorIngredients(ingredients));
+    }, [ingredients]);
 
     const handleCloseOrderDetails = () => {
         setIsShowOrderDetails(false);
@@ -17,9 +26,19 @@ const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
         setIsShowOrderDetails(true);
     };
 
+    if (loading) {
+        return <Loader />;
+    }
+
+    if (error) {
+        return <div className={styles.error}>Не удалось загрузить конструктор бургера, произошла ошибка: {error}</div>
+    }
+
+    console.log('constructorIngredients', constructorIngredients);
+
     return (
         <section className={styles.constructor_section}>
-            <ConstructorList ingredients={ingredients} />
+            <ConstructorList ingredients={constructorIngredients || []} />
             <div className={styles.order}>
                 <Price price={100} size="large" />
                 <Button htmlType="button" type="primary" size="medium" onClick={handleShowOrderDetails}>

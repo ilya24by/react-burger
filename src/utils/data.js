@@ -212,17 +212,18 @@ const ingredientsData = [
 ];
 
 export const filterIngredientsByType = (ingredients) => {
+
     const typeTitles = {
         bun: 'Булки',
         main: 'Начинки',
         sauce: 'Соусы'
     };
 
-    const groupedByType = ingredients.reduce((acc, ingredient) => {
-        if (!acc[ingredient.type]) {
-            acc[ingredient.type] = [];
+    const groupedByType = ingredients?.reduce((acc, ingredient) => {
+        if (!acc[ingredient?.type]) {
+            acc[ingredient?.type] = [];
         }
-        acc[ingredient.type].push(ingredient);
+        acc[ingredient?.type].push(ingredient);
         return acc;
     }, {});
 
