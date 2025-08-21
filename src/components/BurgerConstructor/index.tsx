@@ -2,7 +2,7 @@ import ConstructorList from "./ConstructorList";
 import Price from "../../UI/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { useState, useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import OrderDetails from "../OrderDetails";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addBuns, addIngredient } from "../../services/slices/burgerConstructorSlice";
@@ -16,7 +16,7 @@ const BurgerConstructor = () => {
     const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
     const { isLoading, error, isShowOrderDetailsModal } = useAppSelector((state) => state.order);
     const dispatch = useAppDispatch();
-    const [, drop] = useDrop({
+    const [{ isOver }, drop] = useDrop({
         accept: "ingredient",
         drop(ingredient: Ingredient) {
             if (constructorIngredients.length === 0 && ingredient.type !== 'bun') {
@@ -36,6 +36,9 @@ const BurgerConstructor = () => {
                 dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id }));
             }
         },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        }),
     });
 
     const price = useMemo(() => {
@@ -64,7 +67,7 @@ const BurgerConstructor = () => {
     }
 
     return (
-        <section ref={el => { drop(el) }} className={styles.constructor_section}>
+        <section ref={el => { drop(el) }} className={styles.constructor_section} style={{ opacity: isOver ? 0.5 : 1 }}>
             <ConstructorList ingredients={constructorIngredients || []} />
             <div className={styles.order}>
                 <Price price={price} size="large" />
