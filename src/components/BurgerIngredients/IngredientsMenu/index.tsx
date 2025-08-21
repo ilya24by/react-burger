@@ -1,19 +1,48 @@
 import React from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
+import { setCurrentMenuView } from '../../../services/slices/burgerListMenuSlice';
+import { typeTitles } from '../../../utils/data';
+
+type MenuView = 'bun' | 'sauce' | 'main';
+
+const moveToSection = (sectionTitle: string) => {
+    const allH3s = document.querySelectorAll('h3');
+    const targetSection = Array.from(allH3s).find(h3 => h3.textContent === sectionTitle);
+
+    if (targetSection) {
+        targetSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
 
 const BurgerMenu = () => {
-    const [current, setCurrent] = React.useState('buns')
+    const { currentMenuView } = useAppSelector((state) => state.burgerListMenu);
+    const dispatch = useAppDispatch();
+
+    const handleSetCurrentMenuView = (value: MenuView) => {
+        dispatch(setCurrentMenuView(value));
+
+        const sectionTitle = typeTitles[value];
+        if (sectionTitle) {
+            moveToSection(sectionTitle);
+        }
+    };
+
     return (
         <div style={{ display: 'flex' }}>
-            <Tab value="buns" active={current === 'buns'} onClick={setCurrent}>
+            <Tab value="bun" active={currentMenuView === 'bun'} onClick={() => handleSetCurrentMenuView('bun')}>
                 Булки
             </Tab>
-            <Tab value="souses" active={current === 'souses'} onClick={setCurrent}>
+            <Tab value="main" active={currentMenuView === 'main'} onClick={() => handleSetCurrentMenuView('main')}>
+                Начинки
+            </Tab>
+            <Tab value="sauce" active={currentMenuView === 'sauce'} onClick={() => handleSetCurrentMenuView('sauce')}>
                 Соусы
             </Tab>
-            <Tab value="inside" active={current === 'inside'} onClick={setCurrent}>
-                Начинка
-            </Tab>
+
         </div>
     )
 };

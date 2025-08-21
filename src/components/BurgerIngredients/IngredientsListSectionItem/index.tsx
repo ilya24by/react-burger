@@ -1,31 +1,49 @@
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
 import Price from "../../../UI/Price";
 import { IngredientListSectionItemProps } from "./types";
-import { useState } from "react";
 import IngredientDetails from "../../IngredientDetails";
+import { useAppDispatch, useAppSelector } from "../../../services/hooks";
+import { closeIngredientDetailsModal, showIngredientDetailsModal } from "../../../services/slices/ingredientDetailsModalSlice";
+import { useDrag } from "react-dnd";
+import Modal from "../../Modal";
 
 const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemProps) => {
-    const [isShowIngredientDetails, setIsShowIngredientDetails] = useState(false);
+    const ingredientsCounters = useAppSelector((state) => state.burgerIngredients.ingredientsCounters);
+    const counter = ingredientsCounters[ingredient._id] || 0;
+
+    const [, dragRef] = useDrag({
+        type: 'ingredient',
+        item: ingredient,
+    });
+
+    const { isShowIngredientDetails } = useAppSelector((state) => state.ingredientDetails);
     const { name, price, image } = ingredient;
+    const dispatch = useAppDispatch();
 
     const handleShowIngredientDetails = () => {
-        setIsShowIngredientDetails(true);
+        dispatch(showIngredientDetailsModal(ingredient));
     };
 
     const handleCloseIngredientDetails = () => {
-        setIsShowIngredientDetails(false);
+        dispatch(closeIngredientDetailsModal());
     };
 
     return (
         <>
-            <div className={styles.ingredients_list_section_item} onClick={handleShowIngredientDetails} style={{ cursor: 'pointer' }}>
-                <Counter count={1} size="default" extraClass="m-1" />
+            <div ref={el => { dragRef(el) }} className={styles.ingredients_list_section_item} onClick={handleShowIngredientDetails} style={{ cursor: 'pointer' }}>
+                {!!counter && <Counter count={counter} size="default" extraClass="m-1" />}
                 <img src={image} alt={name} />
                 <p className="text text_type_main-default mb-2 text-center">{name}</p>
                 <Price price={price} />
             </div>
-            <IngredientDetails isOpen={isShowIngredientDetails} ingredient={ingredient} onClose={handleCloseIngredientDetails} />
+            {
+                isShowIngredientDetails && (
+                    <Modal title="Детали ингредиента" onClose={handleCloseIngredientDetails}>
+                        <IngredientDetails />
+                    </Modal>
+                )
+            }
         </>
 
     );

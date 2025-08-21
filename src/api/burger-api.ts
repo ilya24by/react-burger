@@ -1,13 +1,18 @@
 import { REACT_APP_BURGER_API } from '../constants/api';
+import { checkResponse } from '../utils/api';
 
-const fetchIngredients = async () => {
-    const response = await fetch(`${REACT_APP_BURGER_API}/ingredients`);
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch ingredients');
-    }
-
-    return response.json();
+export const fetchIngredients = async () => {
+    return fetch(`${REACT_APP_BURGER_API}/ingredients`).then(checkResponse)
 }
 
-export default fetchIngredients;
+export const fetchOrderDetails = async (ordersId: string[]) => {
+    return fetch(`${REACT_APP_BURGER_API}/orders`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            ingredients: ordersId,
+        }),
+    }).then(checkResponse)
+}

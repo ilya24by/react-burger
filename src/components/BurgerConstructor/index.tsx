@@ -2,31 +2,87 @@ import ConstructorList from "./ConstructorList";
 import Price from "../../UI/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { useState } from "react";
+import { useMemo, useEffect } from "react";
 import OrderDetails from "../OrderDetails";
-import { BurgerConstructorProps } from "./types";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { addBuns, addIngredient } from "../../services/slices/burgerConstructorSlice";
+import { increaseIngredientCounter, decreaseIngredientCounter } from "../../services/slices/ingredientsSlice";
+import { useDrop } from "react-dnd";
+import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
+import { getOrderDetails } from "../../services/thunk/orders";
+import { hideOrderDetailsModal } from "../../services/slices/orderSlice";
+import Modal from "../Modal";
 
-const BurgerConstructor = ({ ingredients }: BurgerConstructorProps) => {
-    const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
+const BurgerConstructor = () => {
+    const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
+    const { isLoading, error, isShowOrderDetailsModal } = useAppSelector((state) => state.order);
+    const dispatch = useAppDispatch();
+    const [{ isOver }, drop] = useDrop({
+        accept: "ingredient",
+        drop(ingredient: Ingredient) {
+            if (constructorIngredients.length === 0 && ingredient.type !== 'bun') {
+                alert('Сперва необходимо выбрать булки!');
+                return;
+            }
 
-    const handleCloseOrderDetails = () => {
-        setIsShowOrderDetails(false);
-    };
+            if (ingredient.type === 'bun') {
+                const bunId = constructorIngredients.find(item => item.type === 'bun')?._id
+                if (bunId) {
+                    dispatch(decreaseIngredientCounter({ ingredientId: bunId, count: 2 }));
+                }
+                dispatch(addBuns(ingredient));
+                dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id, count: 2 }));
+            } else {
+                dispatch(addIngredient(ingredient));
+                dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id }));
+            }
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        }),
+    });
 
-    const handleShowOrderDetails = () => {
-        setIsShowOrderDetails(true);
-    };
+    const price = useMemo(() => {
+        return constructorIngredients.reduce((acc, ingredient) => {
+            if (ingredient.type === 'bun') {
+                return acc + ingredient.price;
+            }
+
+            return acc + ingredient.price;
+        }, 0);
+    }, [constructorIngredients]);
+
+    useEffect(() => {
+        if (error) {
+            alert('Произошла ошибка при оформлении заказа');
+        }
+    }, [error]);
+
+    const handleOrderDetails = () => {
+        if (constructorIngredients.length === 0) {
+            alert('Сперва необходимо выбрать ингредиенты!');
+            return;
+        }
+
+        dispatch(getOrderDetails(constructorIngredients.map(ingredient => ingredient._id)));
+    }
 
     return (
-        <section className={styles.constructor_section}>
-            <ConstructorList ingredients={ingredients} />
+        <section ref={el => { drop(el) }} className={styles.constructor_section} style={{ opacity: isOver ? 0.5 : 1 }}>
+            <ConstructorList ingredients={constructorIngredients || []} />
             <div className={styles.order}>
-                <Price price={100} size="large" />
-                <Button htmlType="button" type="primary" size="medium" onClick={handleShowOrderDetails}>
-                    Оформить заказ
+                <Price price={price} size="large" />
+                <Button htmlType="button" type="primary" size="medium" onClick={handleOrderDetails}>
+                    {isLoading ? 'Загрузка...' : 'Оформить заказ'}
                 </Button>
             </div>
-            <OrderDetails isOpen={isShowOrderDetails} onClose={handleCloseOrderDetails} />
+            {
+                isShowOrderDetailsModal && (
+                    <Modal onClose={() => dispatch(hideOrderDetailsModal())}>
+                        <OrderDetails />
+                    </Modal>
+                )
+            }
         </section>
     );
 };
