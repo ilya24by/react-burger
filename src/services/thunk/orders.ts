@@ -10,9 +10,5 @@ export type OrderResponse = {
 }
 
 export const getOrderDetails = createAsyncThunk<OrderResponse, string[]>(
-    'orders/getOrderDetails',
-    async (ordersIds: string[]) => {
-        const response = await fetchOrderDetails(ordersIds);
-        return response as OrderResponse;
-    }
+    'orders/getOrderDetails', fetchOrderDetails
 )
