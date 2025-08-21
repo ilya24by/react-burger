@@ -3,11 +3,6 @@ import type { Ingredient } from '../../components/BurgerIngredients/IngredientsL
 import type { BurgerConstructorState } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
-const prepareIngredient = (ingredient: Ingredient) => {
-    const id = uuidv4();
-    return { payload: { ...ingredient, id } }
-}
-
 const initialState: BurgerConstructorState = {
     constructorIngredients: [],
 };
@@ -16,23 +11,23 @@ const burgerConstructorSlice = createSlice({
     name: 'burgerConstructor',
     initialState,
     reducers: {
-        addBuns: {
-            reducer: (state, action: PayloadAction<Ingredient>) => {
-                if (state.constructorIngredients.find((ingredient) => ingredient.type === 'bun')) {
-                    state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient.type !== 'bun');
-                }
+        addBuns: (state, action: PayloadAction<Ingredient>) => {
+            if (state.constructorIngredients.find((ingredient) => ingredient.type === 'bun')) {
+                state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient.type !== 'bun');
+            }
 
-                state.constructorIngredients.push(action.payload);
-                state.constructorIngredients.unshift(action.payload);
-            },
-            prepare: prepareIngredient
+            state.constructorIngredients.push({ ...action.payload, id: uuidv4() });
+            state.constructorIngredients.unshift({ ...action.payload, id: uuidv4() });
         },
         addIngredient: {
             reducer: (state, action: PayloadAction<Ingredient>) => {
                 const bunIndex = state.constructorIngredients.findIndex(ingredient => ingredient.type === 'bun');
                 state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
             },
-            prepare: prepareIngredient
+            prepare: (ingredient: Ingredient) => {
+                const id = uuidv4();
+                return { payload: { ...ingredient, id } }
+            }
         },
 
         removeIngredient: (state, action: PayloadAction<number>) => {
