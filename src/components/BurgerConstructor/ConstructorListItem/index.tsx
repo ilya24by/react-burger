@@ -4,7 +4,7 @@ import { ConstructorListItemProps } from "./types";
 
 const ConstructorListItem = ({ item, position }: ConstructorListItemProps) => {
     const { name, price, image, type } = item;
-    console.log(item);
+
     return (
         <div className={styles.constructor_list_item}>
             {!position ? <DragIcon type="primary" /> : <div style={{ width: 24 }} />}

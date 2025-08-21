@@ -11,13 +11,10 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
     const ingredientsCounters = useAppSelector((state) => state.burgerIngredients.ingredientsCounters);
     const counter = ingredientsCounters[ingredient._id] || 0;
 
-    console.log('ingredientsCounters', ingredientsCounters);
-
     const [, dragRef] = useDrag({
         type: 'ingredient',
         item: ingredient,
     });
-
 
     const { isShowIngredientDetails } = useAppSelector((state) => state.ingredientDetailsModal);
     const { name, price, image } = ingredient;

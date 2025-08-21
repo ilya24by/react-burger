@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getIngredientsAsync } from '../thunk/ingredients';
 import type { IngredientsState } from './types';
+import type { Ingredient } from '../../components/BurgerIngredients/IngredientsListSection/types';
 
 const initialState: IngredientsState = {
     ingredients: [],
@@ -27,6 +28,17 @@ const burgerIngredientsSlice = createSlice({
                 state.ingredientsCounters[ingredientId] -= 1;
             }
         },
+        updateIngredientCounters: (state, action: PayloadAction<Ingredient[]>) => {
+            state.ingredientsCounters = {}
+
+            action.payload.forEach(ingredient => {
+                if (state.ingredientsCounters[ingredient._id]) {
+                    state.ingredientsCounters[ingredient._id] += 1;
+                } else {
+                    state.ingredientsCounters[ingredient._id] = 1;
+                }
+            });
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -46,5 +58,5 @@ const burgerIngredientsSlice = createSlice({
     }
 });
 
-export const { increaseIngredientCounter, decreaseIngredientCounter } = burgerIngredientsSlice.actions;
+export const { increaseIngredientCounter, decreaseIngredientCounter, updateIngredientCounters } = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;

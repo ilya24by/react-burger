@@ -7,7 +7,7 @@ import OrderDetails from "../OrderDetails";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import Loader from "../Loader";
 import { setConstructorIngredients, addIngredient } from "../../services/slices/burgerConstructorSlice";
-import { increaseIngredientCounter } from "../../services/slices/ingredientsSlice";
+import { increaseIngredientCounter, updateIngredientCounters } from "../../services/slices/ingredientsSlice";
 import { useDrop } from "react-dnd";
 import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 
@@ -26,7 +26,10 @@ const BurgerConstructor = () => {
     const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
 
     useEffect(() => {
-        dispatch(setConstructorIngredients(ingredients));
+        if (ingredients) {
+            dispatch(setConstructorIngredients(ingredients));
+            dispatch(updateIngredientCounters(ingredients));
+        }
     }, [ingredients]);
 
     const handleCloseOrderDetails = () => {
