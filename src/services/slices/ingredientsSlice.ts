@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getIngredientsAsync } from '../thunk/ingredients';
 import type { IngredientsState } from './types';
-import type { Ingredient } from '../../components/BurgerIngredients/IngredientsListSection/types';
 
 const initialState: IngredientsState = {
     ingredients: [],
@@ -14,30 +13,21 @@ const burgerIngredientsSlice = createSlice({
     name: 'ingredients',
     initialState,
     reducers: {
-        increaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string }>) => {
-            const { ingredientId } = action.payload;
-            if (state.ingredientsCounters[ingredientId]) {
-                state.ingredientsCounters[ingredientId] += 1;
+        increaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string, count?: number }>) => {
+            const { ingredientId, count } = action.payload;
+            if (count) {
+                state.ingredientsCounters[ingredientId] = count;
             } else {
-                state.ingredientsCounters[ingredientId] = 1;
+                state.ingredientsCounters[ingredientId] = (state.ingredientsCounters[ingredientId] || 0) + 1;
             }
         },
-        decreaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string }>) => {
-            const { ingredientId } = action.payload;
-            if (state.ingredientsCounters[ingredientId] > 0) {
-                state.ingredientsCounters[ingredientId] -= 1;
+        decreaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string, count?: number }>) => {
+            const { ingredientId, count } = action.payload;
+            if (count) {
+                state.ingredientsCounters[ingredientId] = state.ingredientsCounters[ingredientId] - count >= 0 ? state.ingredientsCounters[ingredientId] - count : 0;
+            } else if (state.ingredientsCounters[ingredientId] > 0) {
+                state.ingredientsCounters[ingredientId] = (state.ingredientsCounters[ingredientId] || 0) - 1;
             }
-        },
-        updateIngredientCounters: (state, action: PayloadAction<Ingredient[]>) => {
-            state.ingredientsCounters = {}
-
-            action.payload.forEach(ingredient => {
-                if (state.ingredientsCounters[ingredient._id]) {
-                    state.ingredientsCounters[ingredient._id] += 1;
-                } else {
-                    state.ingredientsCounters[ingredient._id] = 1;
-                }
-            });
         },
     },
     extraReducers: (builder) => {
@@ -58,5 +48,5 @@ const burgerIngredientsSlice = createSlice({
     }
 });
 
-export const { increaseIngredientCounter, decreaseIngredientCounter, updateIngredientCounters } = burgerIngredientsSlice.actions;
+export const { increaseIngredientCounter, decreaseIngredientCounter } = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;

@@ -2,35 +2,35 @@ import ConstructorList from "./ConstructorList";
 import Price from "../../UI/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OrderDetails from "../OrderDetails";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import Loader from "../Loader";
-import { setConstructorIngredients, addIngredient } from "../../services/slices/burgerConstructorSlice";
-import { increaseIngredientCounter, updateIngredientCounters } from "../../services/slices/ingredientsSlice";
+import { addBuns, addIngredient } from "../../services/slices/burgerConstructorSlice";
+import { increaseIngredientCounter, decreaseIngredientCounter } from "../../services/slices/ingredientsSlice";
 import { useDrop } from "react-dnd";
 import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 
 const BurgerConstructor = () => {
+    const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
+    const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
     const dispatch = useAppDispatch();
     const [, drop] = useDrop({
         accept: "ingredient",
         drop(ingredient: Ingredient) {
-            dispatch(addIngredient(ingredient));
-            dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id }));
+            if (ingredient.type === 'bun') {
+                const bunId = constructorIngredients.find(item => item.type === 'bun')?._id
+                if (bunId) {
+                    dispatch(decreaseIngredientCounter({ ingredientId: bunId, count: 2 }));
+                }
+                dispatch(addBuns(ingredient));
+                dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id, count: 2 }));
+            } else {
+                dispatch(addIngredient(ingredient));
+                dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id }));
+            }
         },
     });
 
-    const { ingredients, loading, error } = useAppSelector((state) => state.burgerIngredients);
-    const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
-    const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
-
-    useEffect(() => {
-        if (ingredients) {
-            dispatch(setConstructorIngredients(ingredients));
-            dispatch(updateIngredientCounters(ingredients));
-        }
-    }, [ingredients]);
 
     const handleCloseOrderDetails = () => {
         setIsShowOrderDetails(false);
@@ -39,14 +39,6 @@ const BurgerConstructor = () => {
     const handleShowOrderDetails = () => {
         setIsShowOrderDetails(true);
     };
-
-    if (loading) {
-        return <Loader />;
-    }
-
-    if (error) {
-        return <div className={styles.error}>Не удалось загрузить конструктор бургера, произошла ошибка: {error}</div>
-    }
 
     return (
         <section ref={el => { drop(el) }} className={styles.constructor_section}>
