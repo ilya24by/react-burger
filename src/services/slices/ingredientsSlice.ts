@@ -29,6 +29,10 @@ const burgerIngredientsSlice = createSlice({
                 state.ingredientsCounters[ingredientId] = (state.ingredientsCounters[ingredientId] || 0) - 1;
             }
         },
+
+        clearIngredientsCounters: (state) => {
+            state.ingredientsCounters = {};
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -48,5 +52,5 @@ const burgerIngredientsSlice = createSlice({
     }
 });
 
-export const { increaseIngredientCounter, decreaseIngredientCounter } = burgerIngredientsSlice.actions;
+export const { increaseIngredientCounter, decreaseIngredientCounter, clearIngredientsCounters } = burgerIngredientsSlice.actions;
 export default burgerIngredientsSlice.reducer;

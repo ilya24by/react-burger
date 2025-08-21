@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getOrderDetails } from '../thunk/orders';
 import type { OrderResponse } from '../thunk/orders';
+import { clearConstructorIngredients } from './burgerConstructorSlice';
 
 const orderSlice = createSlice({
     name: 'order',

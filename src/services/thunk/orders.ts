@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchOrderDetails } from "../../api/burger-api";
+import { clearConstructorIngredients } from "../slices/burgerConstructorSlice";
+import { clearIngredientsCounters } from "../slices/ingredientsSlice";
 
 export type OrderResponse = {
     "name": string,
@@ -10,5 +12,11 @@ export type OrderResponse = {
 }
 
 export const getOrderDetails = createAsyncThunk<OrderResponse, string[]>(
-    'orders/getOrderDetails', fetchOrderDetails
+    'orders/getOrderDetails',
+    async (ingredientIds, thunkAPI) => {
+        const response = await fetchOrderDetails(ingredientIds);
+        thunkAPI.dispatch(clearConstructorIngredients());
+        thunkAPI.dispatch(clearIngredientsCounters());
+        return response as OrderResponse;
+    }
 )
