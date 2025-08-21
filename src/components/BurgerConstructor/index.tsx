@@ -11,6 +11,7 @@ import { useDrop } from "react-dnd";
 import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import { getOrderDetails } from "../../services/thunk/orders";
 import { hideOrderDetailsModal } from "../../services/slices/orderSlice";
+import Modal from "../Modal";
 
 const BurgerConstructor = () => {
     const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
@@ -75,7 +76,13 @@ const BurgerConstructor = () => {
                     {isLoading ? 'Загрузка...' : 'Оформить заказ'}
                 </Button>
             </div>
-            <OrderDetails isOpen={isShowOrderDetailsModal} onClose={() => dispatch(hideOrderDetailsModal())} />
+            {
+                isShowOrderDetailsModal && (
+                    <Modal onClose={() => dispatch(hideOrderDetailsModal())}>
+                        <OrderDetails />
+                    </Modal>
+                )
+            }
         </section>
     );
 };

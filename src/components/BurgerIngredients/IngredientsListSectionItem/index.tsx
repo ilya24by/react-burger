@@ -6,6 +6,7 @@ import IngredientDetails from "../../IngredientDetails";
 import { useAppDispatch, useAppSelector } from "../../../services/hooks";
 import { closeIngredientDetailsModal, showIngredientDetailsModal } from "../../../services/slices/ingredientDetailsModalSlice";
 import { useDrag } from "react-dnd";
+import Modal from "../../Modal";
 
 const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemProps) => {
     const ingredientsCounters = useAppSelector((state) => state.burgerIngredients.ingredientsCounters);
@@ -16,7 +17,7 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
         item: ingredient,
     });
 
-    const { isShowIngredientDetails } = useAppSelector((state) => state.ingredientDetailsModal);
+    const { isShowIngredientDetails } = useAppSelector((state) => state.ingredientDetails);
     const { name, price, image } = ingredient;
     const dispatch = useAppDispatch();
 
@@ -36,7 +37,13 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
                 <p className="text text_type_main-default mb-2 text-center">{name}</p>
                 <Price price={price} />
             </div>
-            <IngredientDetails isOpen={isShowIngredientDetails} onClose={handleCloseIngredientDetails} />
+            {
+                isShowIngredientDetails && (
+                    <Modal title="Детали ингредиента" onClose={handleCloseIngredientDetails}>
+                        <IngredientDetails />
+                    </Modal>
+                )
+            }
         </>
 
     );

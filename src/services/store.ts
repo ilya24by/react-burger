@@ -10,7 +10,7 @@ export const store = configureStore({
         burgerIngredients: burderIngredientsReducer,
         burgerConstructor: constructorReducer,
         order: orderReducer,
-        ingredientDetailsModal: ingredientDetailsModalReducer,
+        ingredientDetails: ingredientDetailsModalReducer,
         burgerListMenu: burgerListMenuReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',

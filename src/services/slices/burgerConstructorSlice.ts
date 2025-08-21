@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { Ingredient } from '../../components/BurgerIngredients/IngredientsListSection/types';
 import type { BurgerConstructorState } from './types';
+import { v4 as uuidv4 } from 'uuid';
+
+const prepareIngredient = (ingredient: Ingredient) => {
+    const id = uuidv4();
+    return { payload: { ...ingredient, id } }
+}
 
 const initialState: BurgerConstructorState = {
     constructorIngredients: [],
@@ -10,18 +16,23 @@ const burgerConstructorSlice = createSlice({
     name: 'burgerConstructor',
     initialState,
     reducers: {
-        addBuns: (state, action: PayloadAction<Ingredient>) => {
-            if (state.constructorIngredients.find((ingredient) => ingredient.type === 'bun')) {
-                state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient.type !== 'bun');
-            }
+        addBuns: {
+            reducer: (state, action: PayloadAction<Ingredient>) => {
+                if (state.constructorIngredients.find((ingredient) => ingredient.type === 'bun')) {
+                    state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient.type !== 'bun');
+                }
 
-            state.constructorIngredients.push(action.payload);
-            state.constructorIngredients.unshift(action.payload);
+                state.constructorIngredients.push(action.payload);
+                state.constructorIngredients.unshift(action.payload);
+            },
+            prepare: prepareIngredient
         },
-
-        addIngredient: (state, action: PayloadAction<Ingredient>) => {
-            const bunIndex = state.constructorIngredients.findIndex(ingredient => ingredient.type === 'bun');
-            state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
+        addIngredient: {
+            reducer: (state, action: PayloadAction<Ingredient>) => {
+                const bunIndex = state.constructorIngredients.findIndex(ingredient => ingredient.type === 'bun');
+                state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
+            },
+            prepare: prepareIngredient
         },
 
         removeIngredient: (state, action: PayloadAction<number>) => {
