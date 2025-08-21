@@ -7,8 +7,6 @@ import { useAppSelector } from "../../services/hooks";
 const OrderDetails = ({ isOpen, onClose }: OrderDetailsProps) => {
     const { order } = useAppSelector((state) => state.order);
 
-    console.log(order);
-
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <div className={styles.order_details_content}>
