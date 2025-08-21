@@ -7,7 +7,7 @@
 .constructor_section {
   display: flex;
   flex: 1;
-  height: 1024px;
+  height: 100%;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
