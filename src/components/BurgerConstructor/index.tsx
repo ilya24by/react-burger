@@ -17,6 +17,11 @@ const BurgerConstructor = () => {
     const [, drop] = useDrop({
         accept: "ingredient",
         drop(ingredient: Ingredient) {
+            if (constructorIngredients.length === 0 && ingredient.type !== 'bun') {
+                alert('Сперва необходимо выбрать булки!');
+                return;
+            }
+
             if (ingredient.type === 'bun') {
                 const bunId = constructorIngredients.find(item => item.type === 'bun')?._id
                 if (bunId) {

@@ -21,12 +21,7 @@ const burgerConstructorSlice = createSlice({
 
         addIngredient: (state, action: PayloadAction<Ingredient>) => {
             const bunIndex = state.constructorIngredients.findIndex(ingredient => ingredient.type === 'bun');
-
-            if (bunIndex !== -1) {
-                state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
-            } else {
-                state.constructorIngredients.push(action.payload);
-            }
+            state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
         },
 
         removeIngredient: (state, action: PayloadAction<Ingredient>) => {
