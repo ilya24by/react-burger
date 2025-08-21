@@ -22,5 +22,5 @@ const burgerConstructorSlice = createSlice({
     },
 });
 
-export const { setConstructorIngredients } = burgerConstructorSlice.actions;
+export const { setConstructorIngredients, addIngredient, removeIngredient } = burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;

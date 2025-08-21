@@ -13,7 +13,7 @@ const ConstructorList = ({ ingredients }: BurgerConstructorProps) => {
         <div className={styles.constructor_list}>
             {
                 ingredients.map((item, index) => (
-                    <ConstructorListItem key={item.name} type={defineType(index, ingredients.length)} item={item} />
+                    <ConstructorListItem key={item._id + index} position={defineType(index, ingredients.length)} item={item} />
                 ))
             }
         </div>

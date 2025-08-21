@@ -6,10 +6,21 @@ import { useEffect, useState } from "react";
 import OrderDetails from "../OrderDetails";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import Loader from "../Loader";
-import { setConstructorIngredients } from "../../services/slices/burgerConstructorSlice";
+import { setConstructorIngredients, addIngredient } from "../../services/slices/burgerConstructorSlice";
+import { increaseIngredientCounter } from "../../services/slices/ingredientsSlice";
+import { useDrop } from "react-dnd";
+import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 
 const BurgerConstructor = () => {
     const dispatch = useAppDispatch();
+    const [, drop] = useDrop({
+        accept: "ingredient",
+        drop(ingredient: Ingredient) {
+            dispatch(addIngredient(ingredient));
+            dispatch(increaseIngredientCounter({ ingredientId: ingredient?._id }));
+        },
+    });
+
     const { ingredients, loading, error } = useAppSelector((state) => state.burgerIngredients);
     const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
     const [isShowOrderDetails, setIsShowOrderDetails] = useState(false);
@@ -35,7 +46,7 @@ const BurgerConstructor = () => {
     }
 
     return (
-        <section className={styles.constructor_section}>
+        <section ref={el => { drop(el) }} className={styles.constructor_section}>
             <ConstructorList ingredients={constructorIngredients || []} />
             <div className={styles.order}>
                 <Price price={100} size="large" />

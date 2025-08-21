@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getIngredientsAsync } from '../thunk/ingredients';
-import type { Ingredient } from '../../components/BurgerIngredients/IngredientsListSection/types';
 import type { IngredientsState } from './types';
 
 const initialState: IngredientsState = {
@@ -16,7 +15,11 @@ const burgerIngredientsSlice = createSlice({
     reducers: {
         increaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string }>) => {
             const { ingredientId } = action.payload;
-            state.ingredientsCounters[ingredientId] += 1;
+            if (state.ingredientsCounters[ingredientId]) {
+                state.ingredientsCounters[ingredientId] += 1;
+            } else {
+                state.ingredientsCounters[ingredientId] = 1;
+            }
         },
         decreaseIngredientCounter: (state, action: PayloadAction<{ ingredientId: string }>) => {
             const { ingredientId } = action.payload;
