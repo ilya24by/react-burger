@@ -1,17 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getOrderDetails } from '../thunk/orders';
+import type { OrderResponse } from '../thunk/orders';
 
 const orderSlice = createSlice({
     name: 'order',
-    initialState: { order: null },
+    initialState: { isShowOrderDetailsModal: false, order: null as OrderResponse | null, isLoading: false, error: false },
     reducers: {
-        getOrder: (state, action) => {
-            state.order = action.payload;
+        hideOrderDetailsModal: (state) => {
+            state.isShowOrderDetailsModal = false;
         },
-        updateOrder: (state, action) => {
+    },
+    extraReducers: (builder) => {
+        builder.addCase(getOrderDetails.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getOrderDetails.fulfilled, (state, action) => {
             state.order = action.payload;
-        },
+            state.isLoading = false;
+            state.isShowOrderDetailsModal = true;
+        });
+        builder.addCase(getOrderDetails.rejected, (state) => {
+            state.isShowOrderDetailsModal = false;
+            state.order = null;
+            state.isLoading = false;
+            state.error = true;
+        });
     },
 });
 
-export const { getOrder, updateOrder } = orderSlice.actions;
+export const { hideOrderDetailsModal } = orderSlice.actions;
 export default orderSlice.reducer;
