@@ -24,8 +24,10 @@ const burgerConstructorSlice = createSlice({
             state.constructorIngredients.splice(bunIndex + 1, 0, action.payload);
         },
 
-        removeIngredient: (state, action: PayloadAction<Ingredient>) => {
-            state.constructorIngredients = state.constructorIngredients.filter((ingredient) => ingredient._id !== action.payload._id);
+        removeIngredient: (state, action: PayloadAction<number>) => {
+            const index = action.payload;
+            if (index < 0 || index >= state.constructorIngredients.length) return;
+            state.constructorIngredients.splice(index, 1);
         },
 
         reorderIngredients: (state, action: PayloadAction<{ fromIndex: number; toIndex: number }>) => {

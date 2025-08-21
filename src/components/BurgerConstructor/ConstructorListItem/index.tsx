@@ -39,7 +39,7 @@ const ConstructorListItem = ({ item, position, index, onMove }: ConstructorListI
     drag(drop(ref));
 
     const handleRemoveIngredient = () => {
-        dispatch(removeIngredient(item));
+        dispatch(removeIngredient(index));
         dispatch(decreaseIngredientCounter({ ingredientId: item._id }));
     }
 
