@@ -2,5 +2,7 @@ import { Ingredient } from "../../BurgerIngredients/IngredientsListSection/types
 
 export type ConstructorListItemProps = {
     item: Ingredient;
-    type: 'top' | 'bottom' | undefined;
+    position: 'top' | 'bottom' | undefined;
+    index: number;
+    onMove: (fromIndex: number, toIndex: number) => void;
 }

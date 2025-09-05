@@ -9,7 +9,7 @@ const modalRoot = document.createElement('div');
 modalRoot.id = "react-modals";
 document.body.appendChild(modalRoot);
 
-const Modal = ({ title, children, isOpen, onClose }: ModalProps) => {
+const Modal = ({ title, children, onClose }: ModalProps) => {
     useEffect(() => {
         const handleEscapeKey = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -27,10 +27,6 @@ const Modal = ({ title, children, isOpen, onClose }: ModalProps) => {
     const handlePropagation = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
-
-    if (!isOpen) {
-        return null;
-    }
 
     const modalContent = (
         <ModalOverlay onClose={onClose}>

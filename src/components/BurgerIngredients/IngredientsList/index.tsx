@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { filterIngredientsByType } from "../../../utils/data";
 import IngredientsListSection from "../IngredientsListSection";
 import styles from './index.module.css';
@@ -6,11 +6,19 @@ import { BurgerIngredientsProps } from "../types";
 
 const IngredientsList = ({ ingredients }: BurgerIngredientsProps) => {
     const ingrediendsSections = useMemo(() => filterIngredientsByType(ingredients), [ingredients]);
+    const rootRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className={styles.ingredients_list}>
+        <div ref={rootRef} className={styles.ingredients_list}>
             {ingrediendsSections.map(ingredientsSection => {
-                return <IngredientsListSection ingredients={ingredientsSection.items} title={ingredientsSection.title} />
+                return (
+                    <IngredientsListSection
+                        key={ingredientsSection.title}
+                        ingredients={ingredientsSection.items}
+                        title={ingredientsSection.title}
+                        rootRef={rootRef}
+                    />
+                );
             })}
         </div>
     );
