@@ -1,24 +1,23 @@
 import AppHeader from './components/AppHeader';
-import BurgerIngredients from './components/BurgerIngredients';
-import BurgerConstructor from './components/BurgerConstructor';
-import styles from './App.module.css';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
+import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage } from './pages';
 
 function App() {
-
   return (
     <>
-      <AppHeader />
-      <main>
-        <h2 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h2>
-        <div className={styles.main}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
-        </div>
-      </main>
+      <BrowserRouter>
+        <AppHeader />
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/ingredients/:id" element={<IngredientPage />} />
+          <Route path="*" element={null} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
