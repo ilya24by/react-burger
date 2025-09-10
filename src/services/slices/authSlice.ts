@@ -22,7 +22,7 @@ const authSlice = createSlice({
                 state.isLoginLoading = false;
                 state.isLoginError = false;
             })
-            .addCase(loginAsync.rejected, (state, action) => {
+            .addCase(loginAsync.rejected, (state) => {
                 state.isLoginError = true;
                 state.isLoginLoading = false;
             })

@@ -36,3 +36,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.error_text {
+  color: var(--error);
+}

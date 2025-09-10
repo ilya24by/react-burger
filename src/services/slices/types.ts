@@ -22,7 +22,6 @@ export type AuthState = {
     accessToken: string;
     refreshToken: string;
 
-
     isLoginLoading: boolean;
     isLoginError: boolean;
 

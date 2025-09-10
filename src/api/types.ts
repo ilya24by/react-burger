@@ -6,6 +6,7 @@ export type RegisterResponse = {
     };
     accessToken: string;
     refreshToken: string;
+    "message": string
 }
 
 export type LoginResponse = {
@@ -15,7 +16,8 @@ export type LoginResponse = {
     "user": {
         "email": string,
         "name": string
-    }
+    },
+    "message": string
 }
 
 export type RefreshTokenResponse = {

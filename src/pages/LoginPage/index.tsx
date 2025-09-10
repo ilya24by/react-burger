@@ -1,16 +1,17 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
+import { loginAsync } from "../../services/thunk/auth";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 
 const LoginPage = () => {
+    const { isLoginLoading, isLoginError, user } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleSubmit = () => {
-        console.log(email, password);
-    };
 
     const navigateToRegister = () => {
         navigate('/register');
@@ -20,32 +21,46 @@ const LoginPage = () => {
         navigate('/forgot-password');
     };
 
+    const handleSubmit = () => {
+        dispatch(loginAsync({ email, password }));
+    };
+
+    useEffect(() => {
+        if (user) {
+            navigate('/profile');
+        }
+    }, [user]);
+
     return (
         <div className={styles.login}>
             <h2>Вход</h2>
-            <div className={styles.login_form}>
-                <EmailInput
-                    onChange={e => setEmail(e.target.value)}
-                    value={email}
-                    name={'email'}
-                    placeholder="E-mail"
-                    extraClass="mb-2"
-                />
-                <PasswordInput
-                    onChange={e => setPassword(e.target.value)}
-                    value={password}
-                    name={'password'}
-                    placeholder="Пароль"
-                />
-                <Button
-                    onClick={handleSubmit}
-                    htmlType="submit"
-                    type="primary"
-                    size="medium"
-                >
-                    Войти
-                </Button>
-            </div>
+            <EmailInput
+                onChange={e => setEmail(e.target.value)}
+                value={email}
+                name={'email'}
+                placeholder="E-mail"
+                extraClass="mb-2"
+            />
+            <PasswordInput
+                onChange={e => setPassword(e.target.value)}
+                value={password}
+                name={'password'}
+                placeholder="Пароль"
+            />
+            <Button
+                onClick={handleSubmit}
+                disabled={isLoginLoading}
+                htmlType="submit"
+                type="primary"
+                size="medium"
+            >
+                {isLoginLoading ? 'Входим…' : 'Войти'}
+            </Button>
+            {isLoginError && (
+                <p className={`${styles.error_text} text text_type_main-default`}>
+                    Неверный email или пароль
+                </p>
+            )}
             <div className={styles.login_footer}>
                 <div className={styles.login_footer_item}>
                     <p className="text text_type_main-default">Вы — новый пользователь?</p>
