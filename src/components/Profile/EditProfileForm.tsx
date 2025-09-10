@@ -25,7 +25,7 @@ const EditProfileForm = () => {
                 onChange={e => setLogin(e.target.value)}
                 icon={'EditIcon'}
                 value={login}
-                name={'name'}
+                name={'login'}
                 onPointerEnterCapture={() => { }}
                 onPointerLeaveCapture={() => { }}
                 extraClass="mb-4"
@@ -36,7 +36,7 @@ const EditProfileForm = () => {
                 onChange={e => setPassword(e.target.value)}
                 icon={'EditIcon'}
                 value={password}
-                name={'name'}
+                name={'password'}
                 onPointerEnterCapture={() => { }}
                 onPointerLeaveCapture={() => { }}
             />
