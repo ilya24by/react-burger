@@ -7,6 +7,13 @@
   gap: 24px;
 }
 
+.profile_page_container_error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 240px);
+}
+
 .profile_page {
   display: flex;
   align-items: center;

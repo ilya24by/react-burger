@@ -4,4 +4,9 @@
   justify-content: center;
   column-gap: 8px;
   color: var(--primary-light);
+  cursor: pointer;
+}
+
+.header_button:hover {
+  opacity: 0.8;
 }

@@ -1,9 +1,9 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 
-const EditProfileForm = () => {
-    const [name, setName] = useState('');
-    const [login, setLogin] = useState('');
+const EditProfileForm = ({ user }: { user: { name: string, email: string } }) => {
+    const [name, setName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState('');
 
     return (
@@ -22,9 +22,9 @@ const EditProfileForm = () => {
             <Input
                 type={'text'}
                 placeholder={'Логин'}
-                onChange={e => setLogin(e.target.value)}
+                onChange={e => setEmail(e.target.value)}
                 icon={'EditIcon'}
-                value={login}
+                value={email}
                 name={'login'}
                 onPointerEnterCapture={() => { }}
                 onPointerLeaveCapture={() => { }}

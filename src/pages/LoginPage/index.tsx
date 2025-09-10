@@ -4,9 +4,10 @@ import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { setCookie } from "../../utils/data";
 
 const LoginPage = () => {
-    const { isLoginLoading, isLoginError, user } = useAppSelector((state) => state.auth);
+    const { isLoginLoading, isLoginError, user, accessToken, refreshToken } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -26,10 +27,12 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-        if (user) {
+        if (user && refreshToken && accessToken) {
+            localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+            setCookie('token', accessToken, { expires: 500 });
             navigate('/profile');
         }
-    }, [user]);
+    }, [user, refreshToken, accessToken]);
 
     return (
         <div className={styles.login}>

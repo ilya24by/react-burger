@@ -7,6 +7,9 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     return fetch(`${REACT_APP_BURGER_API}/auth/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };
 
@@ -14,18 +17,27 @@ export const register = async (email: string, password: string, name: string): P
     return fetch(`${REACT_APP_BURGER_API}/auth/register`, {
         method: 'POST',
         body: JSON.stringify({ email, password, name }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };
 
 export const logout = async (): Promise<LogoutResponse> => {
     return fetch(`${REACT_APP_BURGER_API}/auth/logout`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
     return fetch(`${REACT_APP_BURGER_API}/auth/token`, {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };
 
@@ -33,6 +45,9 @@ export const resetPassword = async (email: string): Promise<ResetPasswordRespons
     return fetch(`${REACT_APP_BURGER_API}/password-reset`, {
         method: 'POST',
         body: JSON.stringify({ email }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };
 
@@ -40,5 +55,8 @@ export const fetchResetCode = async (password: string, token: string): Promise<F
     return fetch(`${REACT_APP_BURGER_API}/password-reset/reset`, {
         method: 'POST',
         body: JSON.stringify({ password, token }),
+        headers: {
+            'Content-Type': 'application/json',
+        }
     }).then(checkResponse)
 };

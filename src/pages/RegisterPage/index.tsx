@@ -1,21 +1,31 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { registerAsync } from "../../services/thunk/auth";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { user, isRegisterLoading, isRegisterError } = useAppSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
 
     const handleSubmit = () => {
-        console.log(email, password);
+        dispatch(registerAsync({ email, password, name }));
     };
 
     const navigateToLogin = () => {
         navigate('/login');
     };
+
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user]);
 
     return (
         <div className={styles.login}>
@@ -28,7 +38,7 @@ const RegisterPage = () => {
                     value={name}
                     name={'name'}
                     size={'default'}
-                    extraClass="ml-1"
+                    extraClass="mb-2"
                     onPointerEnterCapture={() => { }}
                     onPointerLeaveCapture={() => { }}
                 />
@@ -51,8 +61,13 @@ const RegisterPage = () => {
                     type="primary"
                     size="medium"
                 >
-                    Зарегистрироваться
+                    {isRegisterLoading ? 'Зарегистрируемся…' : 'Зарегистрироваться'}
                 </Button>
+                {isRegisterError && (
+                    <p className={`${styles.error_text} text text_type_main-default`}>
+                        Произошла ошибка при регистрации
+                    </p>
+                )}
             </div>
             <div className={styles.login_footer}>
                 <div className={styles.login_footer_item}>

@@ -1,10 +1,22 @@
-import { useAppSelector } from '../../services/hooks';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { getCookie } from '../../utils/data';
 
 function ProtectedRouteElement({ element }: { element: any }) {
-    const { accessToken, refreshToken } = useAppSelector((state) => state.auth);
+    const [isTokenLife, setIsTokenLife] = useState(false);
 
-    return accessToken && refreshToken ? element : <Navigate to="/login" replace />
+    const init = async () => {
+        const token = getCookie('token');
+        if (token) {
+            setIsTokenLife(true);
+        }
+    };
+
+    useEffect(() => {
+        init();
+    }, []);
+
+    return isTokenLife ? element : <Navigate to="/login" replace />
 }
 
 
