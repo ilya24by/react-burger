@@ -1,8 +1,12 @@
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import styles from './index.module.css';
+import { useAppDispatch } from "../../services/hooks";
+import { logoutAsync } from "../../services/thunk/auth";
+import { deleteCookie } from "../../utils/data";
 
 const ProfileMenu = () => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const navigateToProfile = () => {
@@ -14,7 +18,10 @@ const ProfileMenu = () => {
     };
 
     const navigateToLogout = () => {
-        navigate('/logout');
+        dispatch(logoutAsync())
+        localStorage.removeItem('refreshToken');
+        deleteCookie('token');
+        navigate('/login');
     };
 
     return (

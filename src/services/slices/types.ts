@@ -15,6 +15,7 @@ export type IngredientsState = {
 
 export type AuthState = {
     success: boolean;
+    isLoggedIn: boolean;
     user: {
         email: string;
         name: string;

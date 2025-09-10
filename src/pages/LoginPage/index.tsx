@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { setCookie } from "../../utils/data";
+import { COOKIE_EXPIRE_TIME_SECONDS } from "../../constants/api";
 
 const LoginPage = () => {
     const { isLoginLoading, isLoginError, user, accessToken, refreshToken } = useAppSelector((state) => state.auth);
@@ -28,9 +29,9 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user && refreshToken && accessToken) {
-            localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-            setCookie('token', accessToken, { expires: 500 });
-            navigate('/profile');
+            localStorage.setItem('refreshToken', refreshToken);
+            setCookie('token', accessToken, { expires: COOKIE_EXPIRE_TIME_SECONDS });
+            navigate('/');
         }
     }, [user, refreshToken, accessToken]);
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { login, register, logout, refreshToken } from "../../api/auth-api";
+import { login, register, logout } from "../../api/auth-api";
 import { LoginResponse, RegisterResponse, LogoutResponse, RefreshTokenResponse } from "../../api/types";
 
 export const loginAsync = createAsyncThunk<LoginResponse, { email: string, password: string }>(
@@ -22,14 +22,6 @@ export const logoutAsync = createAsyncThunk<LogoutResponse>(
     'auth/logout',
     async () => {
         const response = await logout();
-        return response;
-    }
-);
-
-export const updateTokenAsync = createAsyncThunk<RefreshTokenResponse>(
-    'auth/token',
-    async () => {
-        const response = await refreshToken();
         return response;
     }
 );

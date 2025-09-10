@@ -1,8 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "./types";
 import { loginAsync, logoutAsync, registerAsync, } from "../thunk/auth";
+import { getCookie } from "../../utils/data";
 
-const initialState: Partial<AuthState> = {};
+
+const cookieToken = getCookie('token');
+
+const initialState: Partial<AuthState> = {
+    accessToken: cookieToken,
+    refreshToken: localStorage.getItem('refreshToken') || '',
+    isLoggedIn: !!cookieToken,
+};
 
 const authSlice = createSlice({
     name: 'auth',
@@ -21,6 +29,7 @@ const authSlice = createSlice({
 
                 state.isLoginLoading = false;
                 state.isLoginError = false;
+                state.isLoggedIn = true;
             })
             .addCase(loginAsync.rejected, (state) => {
                 state.isLoginError = true;
@@ -48,7 +57,7 @@ const authSlice = createSlice({
 
             .addCase(logoutAsync.fulfilled, (state) => {
                 state = {}
-
+                state.isLoggedIn = false;
                 state.isLogoutLoading = false;
                 state.isLogoutError = false;
             })
