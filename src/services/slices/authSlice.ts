@@ -2,7 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "./types";
 import { initAuth, loginAsync, logoutAsync, registerAsync, } from "../thunk/auth";
 
-const initialState: Partial<AuthState> = {};
+const initialState: Partial<AuthState> = {
+    isLoginLoading: false,
+    isLoginError: false,
+    isRegisterLoading: false,
+    isRegisterError: false,
+    isLogoutLoading: false,
+    isLogoutError: false,
+    isLoggedIn: false,
+    user: undefined,
+    accessToken: undefined,
+    refreshToken: undefined,
+};
 
 const authSlice = createSlice({
     name: 'auth',

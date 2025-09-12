@@ -1,22 +1,37 @@
-import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { fetchResetCodeAsync } from "../../services/thunk/resetPassword";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useAppSelector((state) => state.auth);
-    const [email, setEmail] = useState('');
+    const dispatch = useAppDispatch();
+    const { isResetCodeLoading, isResetCodeError, isSuccessRequestResetCode } = useAppSelector((state) => state.resetPassword);
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
+
     const handleSubmit = () => {
-        console.log(email);
+        dispatch(fetchResetCodeAsync({ password, token: code }));
     };
 
     const navigateToLogin = () => {
         navigate('/login');
     };
+
+    useEffect(() => {
+        if (isSuccessRequestResetCode) {
+            navigateToLogin()
+        }
+    }, [isSuccessRequestResetCode]);
+
+    useEffect(() => {
+        if (isResetCodeError) {
+            alert('Произошла ошибка');
+        }
+    }, [isResetCodeError]);
 
     if (isLoggedIn) {
         return (
@@ -46,12 +61,13 @@ const ResetPasswordPage = () => {
                     onPointerLeaveCapture={() => { }}
                 />
                 <Button
+                    disabled={isResetCodeLoading}
                     onClick={handleSubmit}
                     htmlType="submit"
                     type="primary"
                     size="medium"
                 >
-                    Сохранить
+                    {isResetCodeLoading ? 'Созраняем...' : 'Сохранить'}
                 </Button>
             </div>
             <div className={styles.login_footer}>

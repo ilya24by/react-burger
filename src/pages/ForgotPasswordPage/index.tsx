@@ -1,21 +1,38 @@
-import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
 import { Navigate, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { resetPasswordAsync } from "../../services/thunk/resetPassword";
 
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const { isLoggedIn } = useAppSelector((state) => state.auth);
+    const { isResetPasswordLoading, isResetPasswordError, isSuccessRequestResetPassword } = useAppSelector((state) => state.resetPassword);
     const [email, setEmail] = useState('');
 
     const handleSubmit = () => {
-        console.log(email);
+        dispatch(resetPasswordAsync({ email }));
     };
 
     const navigateToLogin = () => {
         navigate('/login');
     };
+
+    useEffect(() => {
+        if (isResetPasswordError) {
+            alert('Произошла ошибка');
+        }
+    }, [isResetPasswordError]);
+
+
+
+    useEffect(() => {
+        if (isSuccessRequestResetPassword) {
+            navigate('/reset-password');
+        }
+    }, [isSuccessRequestResetPassword]);
 
     if (isLoggedIn) {
         return (
@@ -39,11 +56,12 @@ const ForgotPasswordPage = () => {
                 />
                 <Button
                     onClick={handleSubmit}
+                    disabled={isResetPasswordLoading}
                     htmlType="submit"
                     type="primary"
                     size="medium"
                 >
-                    Войти
+                    {isResetPasswordLoading ? 'Отправляем код...' : 'Восстановить'}
                 </Button>
             </div>
             <div className={styles.login_footer}>

@@ -42,6 +42,9 @@ export type ResetPasswordState = {
 
     isResetPasswordLoading: boolean;
     isResetCodeLoading: boolean;
+
+    isResetPasswordError: boolean;
+    isResetCodeError: boolean;
 }
 
 

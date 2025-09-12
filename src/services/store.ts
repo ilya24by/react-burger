@@ -6,6 +6,7 @@ import ingredientDetailsModalReducer from './slices/ingredientDetailsModalSlice'
 import burgerListMenuReducer from './slices/burgerListMenuSlice';
 import authReducer from './slices/authSlice';
 import profileReducer from './slices/profileSlice';
+import resetPasswordReducer from './slices/resetPasswordSlice';
 
 export const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
         burgerListMenu: burgerListMenuReducer,
         auth: authReducer,
         profile: profileReducer,
+        resetPassword: resetPasswordReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });
