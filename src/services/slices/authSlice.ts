@@ -1,16 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "./types";
-import { loginAsync, logoutAsync, registerAsync, } from "../thunk/auth";
-import { getCookie } from "../../utils/data";
+import { initAuth, loginAsync, logoutAsync, registerAsync, } from "../thunk/auth";
 
-
-const cookieToken = getCookie('token');
-
-const initialState: Partial<AuthState> = {
-    accessToken: cookieToken,
-    refreshToken: localStorage.getItem('refreshToken') || '',
-    isLoggedIn: !!cookieToken,
-};
+const initialState: Partial<AuthState> = {};
 
 const authSlice = createSlice({
     name: 'auth',
@@ -22,6 +14,11 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(initAuth.fulfilled, (state, action) => {
+                state.accessToken = action.payload.accessToken;
+                state.refreshToken = action.payload.refreshToken;
+                state.isLoggedIn = !!action.payload.accessToken;
+            })
             .addCase(loginAsync.fulfilled, (state, action) => {
                 state.user = action.payload.user;
                 state.accessToken = action.payload.accessToken;
@@ -56,10 +53,12 @@ const authSlice = createSlice({
             })
 
             .addCase(logoutAsync.fulfilled, (state) => {
-                state = {}
                 state.isLoggedIn = false;
                 state.isLogoutLoading = false;
                 state.isLogoutError = false;
+                state.user = undefined;
+                state.accessToken = '';
+                state.refreshToken = '';
             })
             .addCase(logoutAsync.rejected, (state) => {
                 state.isLogoutError = true;

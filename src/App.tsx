@@ -2,8 +2,17 @@ import AppHeader from './components/AppHeader';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage } from './pages';
 import ProtectedRouteElement from './components/ProtectedRouteElement';
+import { useAppDispatch } from './services/hooks';
+import { initAuth } from './services/thunk/auth';
+import { useEffect } from 'react';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(initAuth());
+  }, []);
+
   return (
     <>
       <BrowserRouter>

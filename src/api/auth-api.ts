@@ -23,12 +23,13 @@ export const register = async (email: string, password: string, name: string): P
     }).then(checkResponse)
 };
 
-export const logout = async (): Promise<LogoutResponse> => {
+export const logout = async (refreshToken: string): Promise<LogoutResponse> => {
     return fetch(`${REACT_APP_BURGER_API}/auth/logout`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        body: JSON.stringify({ token: refreshToken })
     }).then(checkResponse)
 };
 

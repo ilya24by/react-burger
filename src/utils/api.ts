@@ -9,8 +9,6 @@ export function checkResponse(res: Response) {
     return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-
-
 export async function getToken() {
     const token = getCookie('token');
 

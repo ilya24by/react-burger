@@ -1,13 +1,13 @@
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useNavigate } from "react-router-dom";
 import styles from './index.module.css';
-import { useAppDispatch } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { logoutAsync } from "../../services/thunk/auth";
-import { deleteCookie } from "../../utils/data";
+import { useEffect } from "react";
 
 const ProfileMenu = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { refreshToken, isLogoutLoading, isLogoutError, isLoggedIn } = useAppSelector((state) => state.auth);
 
     const navigateToProfile = () => {
         navigate('/profile');
@@ -17,12 +17,23 @@ const ProfileMenu = () => {
         navigate('/profile/history');
     };
 
-    const navigateToLogout = () => {
-        dispatch(logoutAsync())
-        localStorage.removeItem('refreshToken');
-        deleteCookie('token');
-        navigate('/login');
-    };
+    const handleLogout = () => {
+        if (refreshToken) {
+            dispatch(logoutAsync(refreshToken));
+        }
+    }
+
+    useEffect(() => {
+        if (!isLoggedIn && !isLogoutLoading) {
+            navigate('/login');
+        }
+    }, [isLoggedIn, isLogoutLoading, navigate]);
+
+    useEffect(() => {
+        if (isLogoutError) {
+            alert('Произошла ошибка при выходе');
+        }
+    }, [isLogoutError]);
 
     return (
         <div className={styles.profile_menu}>
@@ -32,8 +43,8 @@ const ProfileMenu = () => {
             <p onClick={navigateToHistory} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
                 История заказов
             </p>
-            <p onClick={navigateToLogout} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
-                Выход
+            <p onClick={isLogoutLoading ? undefined : handleLogout} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
+                {isLogoutLoading ? 'Выходим...' : 'Выход'}
             </p>
         </div>
     );

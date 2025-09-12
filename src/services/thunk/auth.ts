@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout } from "../../api/auth-api";
 import { LoginResponse, RegisterResponse, LogoutResponse, RefreshTokenResponse } from "../../api/types";
+import { deleteCookie, getCookie } from "../../utils/data";
 
 export const loginAsync = createAsyncThunk<LoginResponse, { email: string, password: string }>(
     'auth/login',
@@ -18,10 +19,23 @@ export const registerAsync = createAsyncThunk<RegisterResponse, { email: string,
     }
 );
 
-export const logoutAsync = createAsyncThunk<LogoutResponse>(
+export const logoutAsync = createAsyncThunk(
     'auth/logout',
+    async (refreshToken: string, { dispatch }) => {
+        try {
+            await logout(refreshToken);
+        } finally {
+            localStorage.removeItem('refreshToken');
+            deleteCookie('token');
+        }
+    }
+);
+
+export const initAuth = createAsyncThunk(
+    "auth/init",
     async () => {
-        const response = await logout();
-        return response;
+        const accessToken = getCookie("token") || "";
+        const refreshToken = localStorage.getItem("refreshToken") || "";
+        return { accessToken, refreshToken };
     }
 );
