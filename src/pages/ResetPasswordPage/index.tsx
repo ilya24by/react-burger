@@ -1,10 +1,12 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
 import styles from '../../styles/common.module.css';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../services/hooks";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
+    const { isLoggedIn } = useAppSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
@@ -15,6 +17,15 @@ const ResetPasswordPage = () => {
     const navigateToLogin = () => {
         navigate('/login');
     };
+
+    if (isLoggedIn) {
+        return (
+            <Navigate
+                to="/"
+                replace
+            />
+        );
+    }
 
     return (
         <div className={styles.login}>
