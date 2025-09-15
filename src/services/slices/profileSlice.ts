@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProfileState } from "./types";
-import { getProfileAsync } from "../thunk/profile";
+import { getProfileAsync, updateProfileAsync } from "../thunk/profile";
 
 const initialState: Partial<ProfileState> = {};
 
@@ -20,6 +20,20 @@ const profileSlice = createSlice({
         builder.addCase(getProfileAsync.rejected, (state) => {
             state.isLoading = false;
             state.isError = true;
+        });
+        builder.addCase(updateProfileAsync.pending, (state) => {
+            state.isUpdateProfileLoading = true;
+        });
+        builder.addCase(updateProfileAsync.fulfilled, (state, action) => {
+            state.user = action.payload.user;
+            state.isUpdateProfileLoading = false;
+            state.isUpdateProfileError = false;
+            state.isUpdateProfileSuccess = true;
+        });
+        builder.addCase(updateProfileAsync.rejected, (state) => {
+            state.isUpdateProfileLoading = false;
+            state.isUpdateProfileError = true;
+            state.isUpdateProfileSuccess = false;
         });
     },
 });

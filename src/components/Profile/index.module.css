@@ -14,3 +14,10 @@
 .profile_menu_item:hover {
   color: var(--primary-light) !important;
 }
+
+.edit_form_buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 24px;
+}

@@ -55,4 +55,9 @@ export type ProfileState = {
     };
     isLoading: boolean;
     isError: boolean;
+
+    isUpdateProfileLoading: boolean;
+    isUpdateProfileError: boolean;
+
+    isUpdateProfileSuccess: boolean;
 }
