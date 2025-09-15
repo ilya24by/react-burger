@@ -4,6 +4,7 @@ import RegisterPage from './RegisterPage';
 import ForgotPasswordPage from './ForgotPasswordPage';
 import ResetPasswordPage from './ResetPasswordPage';
 import ProfilePage from './ProfilePage';
-import IngredientPage from './IngredientPage';
+import IngredientDetailsModal from './IngredientDetailsModal';
+import IngredientDetails from './IngredientDetails';
 
-export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientPage };
+export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsModal, IngredientDetails };

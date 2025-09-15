@@ -8,3 +8,7 @@
   text-align: center;
   color: var(--dark-grey);
 }
+
+.details_title {
+  text-align: center;
+}
