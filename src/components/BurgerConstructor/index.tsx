@@ -12,8 +12,11 @@ import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
 import { getOrderDetails } from "../../services/thunk/orders";
 import { hideOrderDetailsModal } from "../../services/slices/orderSlice";
 import Modal from "../Modal";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
+    const { isLoggedIn } = useAppSelector((state) => state.auth);
+    const navigate = useNavigate();
     const { constructorIngredients } = useAppSelector((state) => state.burgerConstructor);
     const { isLoading, error, isShowOrderDetailsModal } = useAppSelector((state) => state.order);
     const dispatch = useAppDispatch();
@@ -59,6 +62,11 @@ const BurgerConstructor = () => {
     }, [error]);
 
     const handleOrderDetails = () => {
+        if (!isLoggedIn) {
+            navigate('/login');
+            return;
+        }
+
         if (constructorIngredients.length === 0) {
             alert('Сперва необходимо выбрать ингредиенты!');
             return;

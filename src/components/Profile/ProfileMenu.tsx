@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from './index.module.css';
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { logoutAsync } from "../../services/thunk/auth";
+import { resetStore } from "../../services/store";
 import { useEffect } from "react";
 
 const ProfileMenu = () => {
@@ -20,6 +21,7 @@ const ProfileMenu = () => {
     const handleLogout = () => {
         if (refreshToken) {
             dispatch(logoutAsync(refreshToken));
+            dispatch(resetStore());
         }
     }
 
