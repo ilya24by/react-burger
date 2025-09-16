@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import { filterIngredientsByType } from "../../../utils/data";
+import { filterIngredientsByType } from "../../../utils/api";
 import IngredientsListSection from "../IngredientsListSection";
 import styles from './index.module.css';
 import { BurgerIngredientsProps } from "../types";
