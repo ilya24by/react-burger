@@ -1,23 +1,17 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 
 const LoginPage = () => {
-    const { isLoginLoading, isLoginError, user, accessToken, refreshToken } = useAppSelector((state) => state.auth);
+    const { isLoginLoading, isLoginError } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    useEffect(() => {
-        if (user && refreshToken && accessToken) {
-            navigate('/');
-        }
-    }, [user, refreshToken, accessToken]);
 
     const navigateToRegister = () => {
         navigate('/register');
