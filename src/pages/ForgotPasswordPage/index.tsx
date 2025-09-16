@@ -1,18 +1,19 @@
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { resetPasswordAsync } from "../../services/thunk/resetPassword";
+import useForm from "../../hooks/useForm";
 
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isResetPasswordLoading, isResetPasswordError, isSuccessRequestResetPassword } = useAppSelector((state) => state.resetPassword);
-    const [email, setEmail] = useState('');
+    const [form, handleChange] = useForm<{ email: string }>({ email: '' });
 
     const handleSubmit = () => {
-        dispatch(resetPasswordAsync({ email }));
+        dispatch(resetPasswordAsync({ email: form.email }));
     };
 
     const navigateToLogin = () => {
@@ -36,8 +37,8 @@ const ForgotPasswordPage = () => {
             <h2>Восстановление пароля</h2>
             <div className={styles.login_form}>
                 <EmailInput
-                    onChange={e => setEmail(e.target.value)}
-                    value={email}
+                    onChange={handleChange}
+                    value={form.email}
                     name={'email'}
                     placeholder="Укажите e-mail"
                     extraClass="mb-2"

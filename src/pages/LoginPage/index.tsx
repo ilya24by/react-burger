@@ -1,17 +1,16 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import useForm from "../../hooks/useForm";
 
 const LoginPage = () => {
     const { isLoginLoading, isLoginError } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [form, handleChange] = useForm<{ email: string, password: string }>({ email: '', password: '' });
 
     const navigateToRegister = () => {
         navigate('/register');
@@ -22,22 +21,22 @@ const LoginPage = () => {
     };
 
     const handleSubmit = () => {
-        dispatch(loginAsync({ email, password }));
+        dispatch(loginAsync({ email: form.email, password: form.password }));
     };
 
     return (
         <div className={styles.login}>
             <h2>Вход</h2>
             <EmailInput
-                onChange={e => setEmail(e.target.value)}
-                value={email}
+                onChange={handleChange}
+                value={form.email}
                 name={'email'}
                 placeholder="E-mail"
                 extraClass="mb-2"
             />
             <PasswordInput
-                onChange={e => setPassword(e.target.value)}
-                value={password}
+                onChange={handleChange}
+                value={form.password}
                 name={'password'}
                 placeholder="Пароль"
             />

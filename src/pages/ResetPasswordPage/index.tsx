@@ -1,19 +1,19 @@
 import { Button, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { fetchResetCodeAsync } from "../../services/thunk/resetPassword";
+import useForm from "../../hooks/useForm";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isResetCodeLoading, isResetCodeError, isSuccessRequestResetCode } = useAppSelector((state) => state.resetPassword);
-    const [password, setPassword] = useState('');
-    const [code, setCode] = useState('');
+    const [form, handleChange] = useForm<{ password: string, code: string }>({ password: '', code: '' });
 
     const handleSubmit = () => {
-        dispatch(fetchResetCodeAsync({ password, token: code }));
+        dispatch(fetchResetCodeAsync({ password: form.password, token: form.code }));
     };
 
     const navigateToLogin = () => {
@@ -37,14 +37,14 @@ const ResetPasswordPage = () => {
             <h2>Восстановление пароля</h2>
             <div className={styles.login_form}>
                 <PasswordInput
-                    onChange={e => setPassword(e.target.value)}
-                    value={password}
+                    onChange={handleChange}
+                    value={form.password}
                     name={'password'}
                     placeholder="Введите новый пароль"
                 />
                 <Input
-                    onChange={e => setCode(e.target.value)}
-                    value={code}
+                    onChange={handleChange}
+                    value={form.code}
                     name={'code'}
                     placeholder="Введите код из письма"
                     onPointerEnterCapture={() => { }}

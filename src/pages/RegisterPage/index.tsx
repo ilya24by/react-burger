@@ -1,21 +1,19 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
 import styles from '../../styles/common.module.css';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { registerAsync } from "../../services/thunk/auth";
+import useForm from "../../hooks/useForm";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isRegisterLoading, isRegisterError } = useAppSelector((state) => state.auth);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [form, handleChange] = useForm<{ email: string, password: string, name: string }>({ email: '', password: '', name: '' });
 
 
     const handleSubmit = () => {
-        dispatch(registerAsync({ email, password, name }));
+        dispatch(registerAsync({ email: form.email, password: form.password, name: form.name }));
     };
 
     const navigateToLogin = () => {
@@ -29,8 +27,8 @@ const RegisterPage = () => {
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
-                    onChange={e => setName(e.target.value)}
-                    value={name}
+                    onChange={handleChange}
+                    value={form.name}
                     name={'name'}
                     size={'default'}
                     extraClass="mb-2"
@@ -38,15 +36,15 @@ const RegisterPage = () => {
                     onPointerLeaveCapture={() => { }}
                 />
                 <EmailInput
-                    onChange={e => setEmail(e.target.value)}
-                    value={email}
+                    onChange={handleChange}
+                    value={form.email}
                     name={'email'}
                     placeholder="E-mail"
                     extraClass="mb-2"
                 />
                 <PasswordInput
-                    onChange={e => setPassword(e.target.value)}
-                    value={password}
+                    onChange={handleChange}
+                    value={form.password}
                     name={'password'}
                     placeholder="Пароль"
                 />
