@@ -1,26 +1,18 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from '../../styles/common.module.css';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { registerAsync } from "../../services/thunk/auth";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { isRegisterLoading, isRegisterError, isLoggedIn } = useAppSelector((state) => state.auth);
+    const { isRegisterLoading, isRegisterError } = useAppSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
 
-    if (isLoggedIn) {
-        return (
-            <Navigate
-                to="/"
-                replace
-            />
-        );
-    }
 
     const handleSubmit = () => {
         dispatch(registerAsync({ email, password, name }));

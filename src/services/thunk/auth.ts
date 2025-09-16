@@ -1,12 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout } from "../../api/auth-api";
 import { LoginResponse, RegisterResponse, LogoutResponse, RefreshTokenResponse } from "../../api/types";
-import { deleteCookie, getCookie } from "../../utils/data";
+import { deleteCookie, getCookie, setCookie } from "../../utils/data";
+import { COOKIE_EXPIRE_TIME_SECONDS } from "../../constants/api";
 
 export const loginAsync = createAsyncThunk<LoginResponse, { email: string, password: string }>(
     'auth/login',
     async ({ email, password }) => {
         const response = await login(email, password);
+
+        if (response.success) {
+            localStorage.setItem('refreshToken', response.refreshToken);
+            setCookie('token', response.accessToken, { expires: COOKIE_EXPIRE_TIME_SECONDS });
+        }
         return response;
     }
 );

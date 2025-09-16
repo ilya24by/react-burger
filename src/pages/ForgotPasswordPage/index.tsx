@@ -1,14 +1,13 @@
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { resetPasswordAsync } from "../../services/thunk/resetPassword";
 
 const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { isLoggedIn } = useAppSelector((state) => state.auth);
     const { isResetPasswordLoading, isResetPasswordError, isSuccessRequestResetPassword } = useAppSelector((state) => state.resetPassword);
     const [email, setEmail] = useState('');
 
@@ -26,22 +25,11 @@ const ForgotPasswordPage = () => {
         }
     }, [isResetPasswordError]);
 
-
-
     useEffect(() => {
         if (isSuccessRequestResetPassword) {
             navigate('/reset-password');
         }
     }, [isSuccessRequestResetPassword]);
-
-    if (isLoggedIn) {
-        return (
-            <Navigate
-                to="/"
-                replace
-            />
-        );
-    }
 
     return (
         <div className={styles.login}>

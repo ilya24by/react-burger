@@ -1,14 +1,12 @@
 import { Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import styles from '../../styles/common.module.css';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { setCookie } from "../../utils/data";
-import { COOKIE_EXPIRE_TIME_SECONDS } from "../../constants/api";
 
 const LoginPage = () => {
-    const { isLoginLoading, isLoginError, user, accessToken, refreshToken, isLoggedIn } = useAppSelector((state) => state.auth);
+    const { isLoginLoading, isLoginError, user, accessToken, refreshToken } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -17,20 +15,9 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user && refreshToken && accessToken) {
-            localStorage.setItem('refreshToken', refreshToken);
-            setCookie('token', accessToken, { expires: COOKIE_EXPIRE_TIME_SECONDS });
             navigate('/');
         }
     }, [user, refreshToken, accessToken]);
-
-    if (isLoggedIn) {
-        return (
-            <Navigate
-                to="/"
-                replace
-            />
-        );
-    }
 
     const navigateToRegister = () => {
         navigate('/register');
@@ -43,8 +30,6 @@ const LoginPage = () => {
     const handleSubmit = () => {
         dispatch(loginAsync({ email, password }));
     };
-
-
 
     return (
         <div className={styles.login}>
