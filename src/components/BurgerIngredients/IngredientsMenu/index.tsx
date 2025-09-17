@@ -2,7 +2,7 @@ import React from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { setCurrentMenuView } from '../../../services/slices/burgerListMenuSlice';
-import { typeTitles } from '../../../utils/data';
+import { typeTitles } from '../../../utils/api';
 
 type MenuView = 'bun' | 'sauce' | 'main';
 

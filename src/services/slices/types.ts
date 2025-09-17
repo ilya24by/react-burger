@@ -12,3 +12,52 @@ export type IngredientsState = {
         [key: string]: number;
     };
 };
+
+export type AuthState = {
+    success: boolean;
+    isLoggedIn: boolean;
+    user: {
+        email: string;
+        name: string;
+    };
+    accessToken: string;
+    refreshToken: string;
+
+    isLoginLoading: boolean;
+    isLoginError: boolean;
+
+    isRegisterLoading: boolean;
+    isRegisterError: boolean;
+
+    isLogoutLoading: boolean;
+    isLogoutError: boolean;
+}
+
+export type ResetPasswordState = {
+    isSuccessRequestResetPassword: boolean;
+    isSuccessRequestResetCode: boolean;
+
+    resetPasswordMessage: string;
+    resetCodeMessage: string;
+
+    isResetPasswordLoading: boolean;
+    isResetCodeLoading: boolean;
+
+    isResetPasswordError: boolean;
+    isResetCodeError: boolean;
+}
+
+
+export type ProfileState = {
+    user: {
+        email: string;
+        name: string;
+    };
+    isLoading: boolean;
+    isError: boolean;
+
+    isUpdateProfileLoading: boolean;
+    isUpdateProfileError: boolean;
+
+    isUpdateProfileSuccess: boolean;
+}
