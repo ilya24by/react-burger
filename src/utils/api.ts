@@ -1,6 +1,6 @@
 import { fetchRefreshToken } from "../api/auth-api";
 import { RefreshTokenResponse } from "../api/types";
-import { Ingredient } from "../components/BurgerIngredients/IngredientsListSection/types";
+import { Ingredient } from "../components/BurgerIngredients/types";
 import { COOKIE_EXPIRE_TIME_SECONDS } from "../constants/api";
 
 export const typeTitles = {
@@ -18,7 +18,6 @@ export const filterIngredientsByType = (ingredients: Ingredient[]) => {
         return acc;
     }, {} as Record<string, Ingredient[]>);
 
-    // Convert to array of sections with title and items
     const sections = Object.keys(groupedByType).map(type => ({
         title: typeTitles[type as keyof typeof typeTitles] || type,
         items: groupedByType[type]

@@ -5,3 +5,8 @@ export type ModalProps = {
     children: ReactNode;
     onClose: () => void;
 }
+
+export type ModalOverlayProps = {
+    children: ReactNode;
+    onClose: () => void;
+}

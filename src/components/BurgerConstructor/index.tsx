@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { addBuns, addIngredient } from "../../services/slices/burgerConstructorSlice";
 import { increaseIngredientCounter, decreaseIngredientCounter } from "../../services/slices/ingredientsSlice";
 import { useDrop } from "react-dnd";
-import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
+import { Ingredient } from "../BurgerIngredients/types";
 import { getOrderDetails } from "../../services/thunk/orders";
 import { hideOrderDetailsModal } from "../../services/slices/orderSlice";
 import Modal from "../Modal";

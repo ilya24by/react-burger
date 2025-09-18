@@ -1,13 +1,14 @@
 import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from './index.module.css';
 import { updateProfileAsync } from "../../services/thunk/profile";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import useForm from "../../hooks/useForm";
+import { EditProfileFormProps, EditProfileFormState } from "./types";
 
-const EditProfileForm = ({ user }: { user: { name: string, email: string } }) => {
+const EditProfileForm = ({ user }: EditProfileFormProps) => {
     const [isEditName, setIsEditName] = useState(false);
-    const [form, handleChange, resetForm] = useForm<{ name: string, email: string, password: string }>({ name: user.name, email: user.email, password: '' });
+    const [form, handleChange, resetForm] = useForm<EditProfileFormState>({ name: user.name, email: user.email, password: '' });
     const dispatch = useAppDispatch();
     const { isUpdateProfileLoading, isUpdateProfileError, isUpdateProfileSuccess } = useAppSelector((state) => state.profile);
     const nameInputRef = useRef<HTMLInputElement>(null);

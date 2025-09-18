@@ -1,7 +1,8 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../services/hooks';
+import { ReactNode } from 'react';
 
-function ProtectedRouteElement({ element, isAccessDeniedAfterAuth }: { element: any, isAccessDeniedAfterAuth?: boolean }) {
+function ProtectedRouteElement({ element, isAccessDeniedAfterAuth }: { element: React.JSX.Element, isAccessDeniedAfterAuth?: boolean }) {
     const { isLoggedIn } = useAppSelector((state) => state.auth);
     const location = useLocation();
 

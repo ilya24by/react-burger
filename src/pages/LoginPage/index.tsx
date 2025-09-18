@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { loginAsync } from "../../services/thunk/auth";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import useForm from "../../hooks/useForm";
+import { LoginForm } from "./types";
 
 const LoginPage = () => {
     const { isLoginLoading, isLoginError } = useAppSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const [form, handleChange] = useForm<{ email: string, password: string }>({ email: '', password: '' });
+    const [form, handleChange] = useForm<LoginForm>({ email: '', password: '' });
 
     const navigateToRegister = () => {
         navigate('/register');

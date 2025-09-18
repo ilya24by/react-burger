@@ -1,10 +1,8 @@
-import React from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { setCurrentMenuView } from '../../../services/slices/burgerListMenuSlice';
 import { typeTitles } from '../../../utils/api';
-
-type MenuView = 'bun' | 'sauce' | 'main';
+import { MenuView } from '../types';
 
 const moveToSection = (sectionTitle: string) => {
     const allH3s = document.querySelectorAll('h3');

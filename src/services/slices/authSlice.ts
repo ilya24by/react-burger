@@ -10,9 +10,6 @@ const initialState: Partial<AuthState> = {
     isLogoutLoading: false,
     isLogoutError: false,
     isLoggedIn: false,
-    user: undefined,
-    accessToken: undefined,
-    refreshToken: undefined,
 };
 
 const authSlice = createSlice({

@@ -1,9 +1,9 @@
 import { REACT_APP_BURGER_API } from "../constants/api";
 import { checkResponse } from "../utils/api";
-import { FetchResetCodeResponse, LoginResponse, LogoutResponse, RegisterResponse, ResetPasswordResponse } from "./types";
+import { FetchResetCodeResponse, LogoutResponse, AuthorizationResponse, ResetPasswordResponse } from "./types";
 import { RefreshTokenResponse } from "./types";
 
-export const login = async (email: string, password: string): Promise<LoginResponse> => {
+export const login = async (email: string, password: string): Promise<AuthorizationResponse> => {
     return fetch(`${REACT_APP_BURGER_API}/auth/login`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
@@ -13,7 +13,7 @@ export const login = async (email: string, password: string): Promise<LoginRespo
     }).then(checkResponse)
 };
 
-export const register = async (email: string, password: string, name: string): Promise<RegisterResponse> => {
+export const register = async (email: string, password: string, name: string): Promise<AuthorizationResponse> => {
     return fetch(`${REACT_APP_BURGER_API}/auth/register`, {
         method: 'POST',
         body: JSON.stringify({ email, password, name }),

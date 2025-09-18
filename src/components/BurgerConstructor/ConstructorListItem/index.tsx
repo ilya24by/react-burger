@@ -1,11 +1,11 @@
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
-import { ConstructorListItemProps } from "./types";
 import { useAppDispatch } from "../../../services/hooks";
 import { removeIngredient } from "../../../services/slices/burgerConstructorSlice";
 import { decreaseIngredientCounter } from "../../../services/slices/ingredientsSlice";
 import { useDrag, useDrop } from "react-dnd";
 import { useRef } from "react";
+import { ConstructorListItemProps } from "../types";
 
 const ITEM_TYPE = 'constructor-item';
 
