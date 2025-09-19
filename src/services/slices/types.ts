@@ -1,4 +1,4 @@
-import { Ingredient } from "../../components/BurgerIngredients/IngredientsListSection/types";
+import { Ingredient } from "../../components/BurgerIngredients/types";
 
 export type BurgerConstructorState = {
     constructorIngredients: Ingredient[];
@@ -61,3 +61,5 @@ export type ProfileState = {
 
     isUpdateProfileSuccess: boolean;
 }
+
+export type MenuView = 'bun' | 'sauce' | 'main';

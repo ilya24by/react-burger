@@ -1,4 +1,4 @@
-import { Ingredient } from "../BurgerIngredients/IngredientsListSection/types";
+import { Ingredient } from "../BurgerIngredients/types";
 
 export type IngredientDetailsProps = {
     ingredientDetails: Ingredient;

@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-type MenuView = 'bun' | 'sauce' | 'main';
+import { MenuView } from "./types";
 
 type BurgerListMenuState = {
     currentMenuView: MenuView;

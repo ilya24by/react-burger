@@ -1,15 +1,9 @@
-import React, { useEffect, useRef, RefObject, useCallback } from 'react';
-import { IngredientsListSectionProps } from './types';
+import { useEffect, useRef, useCallback } from 'react';
 import IngredientsListSectionItem from '../IngredientsListSectionItem';
 import styles from './index.module.css';
 import { setCurrentMenuView } from '../../../services/slices/burgerListMenuSlice';
 import { useAppDispatch } from '../../../services/hooks';
-
-type MenuView = 'bun' | 'sauce' | 'main';
-
-interface IngredientsListSectionPropsExtended extends IngredientsListSectionProps {
-    rootRef: RefObject<HTMLDivElement | null>;
-}
+import { IngredientsListSectionPropsExtended, MenuView } from '../types';
 
 const IngredientsListSection = ({ ingredients, title, rootRef }: IngredientsListSectionPropsExtended) => {
     const sectionRef = useRef<HTMLDivElement>(null);

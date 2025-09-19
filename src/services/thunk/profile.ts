@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ProfileResponse } from "../../api/types";
 import { getProfile, updateProfile } from "../../api/profile-api";
+import { UpdateProfileRequestParams } from "./types";
 
 export const getProfileAsync = createAsyncThunk<ProfileResponse>(
     'profile/getProfile',
@@ -9,7 +10,7 @@ export const getProfileAsync = createAsyncThunk<ProfileResponse>(
         return response;
     }
 );
-export const updateProfileAsync = createAsyncThunk<ProfileResponse, { email: string, name: string, password: string }>(
+export const updateProfileAsync = createAsyncThunk<ProfileResponse, UpdateProfileRequestParams>(
     'profile/updateProfile',
     async (profile: { email: string, name: string, password: string }) => {
         const response = await updateProfile(profile);

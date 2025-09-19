@@ -1,7 +1,5 @@
-import Modal from "../Modal";
 import styles from './index.module.css';
 import doneImage from '../../images/done.png';
-import { OrderDetailsProps } from "./types";
 import { useAppSelector } from "../../services/hooks";
 
 const OrderDetails = () => {

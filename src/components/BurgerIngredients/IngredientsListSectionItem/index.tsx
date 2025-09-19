@@ -1,7 +1,7 @@
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
 import Price from "../../../UI/Price";
-import { IngredientListSectionItemProps } from "./types";
+import { IngredientListSectionItemProps } from "../types";
 import { useAppSelector } from "../../../services/hooks";
 import { useDrag } from "react-dnd";
 import { Link, useLocation } from "react-router-dom";

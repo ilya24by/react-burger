@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { fetchResetCodeAsync } from "../../services/thunk/resetPassword";
 import useForm from "../../hooks/useForm";
+import { ResetPasswordForm } from "./types";
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isResetCodeLoading, isResetCodeError, isSuccessRequestResetCode } = useAppSelector((state) => state.resetPassword);
-    const [form, handleChange] = useForm<{ password: string, code: string }>({ password: '', code: '' });
+    const [form, handleChange] = useForm<ResetPasswordForm>({ password: '', code: '' });
 
     const handleSubmit = () => {
         dispatch(fetchResetCodeAsync({ password: form.password, token: form.code }));

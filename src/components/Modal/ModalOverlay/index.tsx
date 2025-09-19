@@ -1,5 +1,5 @@
 import styles from './index.module.css';
-import { ModalOverlayProps } from "./types";
+import { ModalOverlayProps } from "../types";
 
 const ModalOverlay = ({ children, onClose }: ModalOverlayProps) => {
     const handleOverlayClick = () => {

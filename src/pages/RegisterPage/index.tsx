@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { registerAsync } from "../../services/thunk/auth";
 import useForm from "../../hooks/useForm";
+import { RegisterForm } from "./types";
 
 const RegisterPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { isRegisterLoading, isRegisterError } = useAppSelector((state) => state.auth);
-    const [form, handleChange] = useForm<{ email: string, password: string, name: string }>({ email: '', password: '', name: '' });
+    const [form, handleChange] = useForm<RegisterForm>({ email: '', password: '', name: '' });
 
 
     const handleSubmit = () => {

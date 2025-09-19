@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { login, register, logout } from "../../api/auth-api";
-import { LoginResponse, RegisterResponse } from "../../api/types";
+import { AuthorizationResponse } from "../../api/types";
 import { deleteCookie, getCookie, setCookie } from "../../utils/api";
 import { COOKIE_EXPIRE_TIME_SECONDS } from "../../constants/api";
+import { LoginRequestParams, RegisterRequestParams } from "./types";
 
-export const loginAsync = createAsyncThunk<LoginResponse, { email: string, password: string }>(
+export const loginAsync = createAsyncThunk<AuthorizationResponse, LoginRequestParams>(
     'auth/login',
     async ({ email, password }) => {
         const response = await login(email, password);
@@ -18,7 +19,7 @@ export const loginAsync = createAsyncThunk<LoginResponse, { email: string, passw
     }
 );
 
-export const registerAsync = createAsyncThunk<RegisterResponse, { email: string, password: string, name: string }>(
+export const registerAsync = createAsyncThunk<AuthorizationResponse, RegisterRequestParams>(
     'auth/register',
     async ({ email, password, name }) => {
         const response = await register(email, password, name);
@@ -28,7 +29,7 @@ export const registerAsync = createAsyncThunk<RegisterResponse, { email: string,
 
 export const logoutAsync = createAsyncThunk(
     'auth/logout',
-    async (refreshToken: string, { dispatch }) => {
+    async (refreshToken: string) => {
         try {
             await logout(refreshToken);
         } finally {
