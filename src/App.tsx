@@ -9,6 +9,10 @@ import {
   ProfilePage,
   IngredientDetailsModal,
   IngredientDetails,
+  FeedPage,
+  FeedNumberPage,
+  ProfileOrdersPage,
+  ProfileOrderNumberPage,
 } from './pages';
 import ProtectedRouteElement from './components/ProtectedRouteElement';
 import { useAppDispatch } from './services/hooks';
@@ -29,6 +33,10 @@ function AppRoutes() {
         <Route path="/reset-password" element={<ProtectedRouteElement isAccessDeniedAfterAuth element={<ResetPasswordPage />} />} />
         <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />} />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
+        <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:number" element={<FeedNumberPage />} />
+        <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfileOrdersPage />} />} />
+        <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<ProfileOrderNumberPage />} />} />
         <Route path="*" element={null} />
       </Routes>
 

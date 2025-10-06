@@ -11,7 +11,7 @@ const AppHeader = () => {
     };
 
     const navigateToOrders = () => {
-        navigate('/orders');
+        navigate('/feed');
     };
 
     const navigateToProfile = () => {
