@@ -1,0 +1,39 @@
+.feed_number_page_container {
+  height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feed_number_page {
+  display: flex;
+  max-width: 536px;
+  flex-direction: column;
+}
+
+.feed_number_page_number {
+  align-self: center;
+}
+
+.feed_number_page_ingredient {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed_number_page_ingredient_image {
+  display: flex;
+  align-items: center;
+}
+
+.feed_number_page_date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed_number_page_date_time {
+  color: var(--dark-grey);
+}

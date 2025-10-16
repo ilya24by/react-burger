@@ -1,7 +1,7 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
 
-const Price = ({ price, size = 'default' }: { price: number, size?: 'default' | 'large' }) => {
+const Price = ({ price, size = 'default' }: { price: number | string, size?: 'default' | 'large' }) => {
     return (
         <div className={styles.price}>
             {size === 'large' ?

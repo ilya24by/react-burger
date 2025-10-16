@@ -1,7 +1,8 @@
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './index.module.css';
 import Price from '../../../UI/Price';
-
+import { useLocation, useNavigate } from 'react-router-dom';
+import IngredientIcon from '../../../UI/IngredientIcon';
 
 const urls = [
     'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
@@ -9,21 +10,15 @@ const urls = [
     'https://code.s3.yandex.net/react/code/sauce-04-mobile.png'
 ]
 
-const IngredientIcon = ({ url, index }: { url: string, index: number }) => {
-    return (
-        <div style={{ zIndex: 100 - index, marginLeft: index === 0 ? 0 : -16 }} className={styles.ingredient_icon_container}>
-            <div className={styles.ingredient_icon}>
-                <img width={120} height={48} src={url} />
-            </div>
-        </div>
-    );
-}
-
 const FeedListItem = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const orderId = '034534';
     const dateFromServer = '2025-10-02T17:33:32.877Z'
+
     return (
-        <div className={styles.feed_list_item}>
-            <div className={styles.feed_list_item_date}>
+        <div onClick={() => navigate(`/feed/${orderId}`, { state: { backgroundLocation: location } })} className={styles.feed_list_item}>
+            <div className={styles.feed_list_item_date} onClick={() => navigate(`/feed/${orderId}`, { state: { backgroundLocation: location } })}>
                 <p>#034534</p>
                 <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(dateFromServer)} />
             </div>
@@ -31,7 +26,7 @@ const FeedListItem = () => {
             <div className={styles.feed_list_item_price}>
                 <div className={styles.ingredient_icons}>
                     {urls.map((url, index) => (
-                        <IngredientIcon url={url} index={index} />
+                        <IngredientIcon key={index} url={url} index={index} />
                     ))}
                 </div>
                 <Price price={1230} />

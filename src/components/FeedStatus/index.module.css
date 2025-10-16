@@ -1,0 +1,46 @@
+.feed_status {
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+}
+
+.feed_status_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feed_status_done {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.feed_status_in_progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.feed_status_all_time {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.feed_status_today {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.done_item {
+  color: var(--colors-interface-success);
+}
+
+.numbers {
+  filter: drop-shadow(2px 2px 8px #4c4cff);
+}

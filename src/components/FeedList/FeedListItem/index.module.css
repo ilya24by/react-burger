@@ -1,12 +1,14 @@
 .feed_list_item {
+  min-width: 536px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 24px;
   padding: 24px;
   background-color: var(--background);
   border-radius: 40px;
+  cursor: pointer;
 }
 
 .feed_list_item_price {

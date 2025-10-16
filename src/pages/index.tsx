@@ -10,5 +10,6 @@ import FeedPage from './FeedPage';
 import FeedNumberPage from './FeedNumberPage';
 import ProfileOrdersPage from './ProfileOrdersPage';
 import ProfileOrderNumberPage from './ProfileOrderNumberPage';
+import FeedNumberPageModal from './FeedNumberPageModal';
 
-export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsModal, IngredientDetails, FeedPage, FeedNumberPage, ProfileOrdersPage, ProfileOrderNumberPage };
+export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsModal, IngredientDetails, FeedPage, FeedNumberPage, ProfileOrdersPage, ProfileOrderNumberPage, FeedNumberPageModal };
