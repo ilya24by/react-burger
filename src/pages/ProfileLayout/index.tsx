@@ -11,11 +11,6 @@ const ProfileLayout = () => {
     );
 };
 
-{/* <p className="text text_type_main-default text_color_inactive mt-10">
-В этом разделе вы можете<br />
-изменить свои персональные данные
-</p> */}
-
 export default ProfileLayout;
 
 
