@@ -35,7 +35,6 @@ const FeedListItem = ({ order, isProfileOrder }: FeedListItemProps) => {
         const basePath = isProfileOrder ? '/profile/orders' : '/feed';
         navigate(`${basePath}/${order.number}`, { state: { backgroundLocation: location } });
     };
-    console.log(order, ingredients);
     const ingredientImages = order.ingredients.map(ingredientId =>
         getIngredientImageById(ingredients, ingredientId)
     ).filter(Boolean);

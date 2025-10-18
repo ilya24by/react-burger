@@ -27,7 +27,6 @@ export const useOrderDetails = (orderNumber: string, feedType: 'feed' | 'profile
             setIsLoading(true);
             setError(null);
 
-            // First, try to find the order in the WebSocket feed
             const orderFromFeed = feedState.orders.find(
                 order => order.number.toString() === orderNumber
             );
@@ -37,8 +36,6 @@ export const useOrderDetails = (orderNumber: string, feedType: 'feed' | 'profile
                 setIsLoading(false);
                 return;
             }
-
-            // If not found in feed, try direct API call
             try {
                 const response = await fetchOrderByNumber(orderNumber);
                 if (response.success && response.orders.length > 0) {

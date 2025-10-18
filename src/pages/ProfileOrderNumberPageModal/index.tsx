@@ -54,8 +54,6 @@ const ProfileOrderNumberPageModal = () => {
         );
     }
 
-    console.log(order)
-
     return (
         <Modal onClose={handleCloseOrderDetails}>
             <FeedDetailsInfo order={order} />
