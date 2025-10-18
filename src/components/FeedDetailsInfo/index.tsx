@@ -63,7 +63,7 @@ const FeedDetailsInfo = ({ order }: FeedDetailsInfoProps) => {
                     <div key={index} className={[styles.feed_number_page_ingredient, "mb-10"].join(' ')}>
                         <div className={styles.feed_number_page_ingredient_image}>
                             <IngredientIcon url={ingredient!.image} />
-                            <p className="text text_type_main-default ml-4 left">{ingredient!.name}</p>
+                            <p className="text text_type_main-default ml-4">{ingredient!.name}</p>
                         </div>
                         <Price price={`${count} x ${ingredient!.price}`} />
                     </div>
