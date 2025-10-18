@@ -3,33 +3,52 @@ import styles from './index.module.css';
 import Price from '../../../UI/Price';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IngredientIcon from '../../../UI/IngredientIcon';
+import { OrdersFeed } from '../../../api/types';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../services/store';
+import { getIngredientImageById, calculateOrderPrice } from '../../../utils/ingredients';
 
-const urls = [
-    'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-    'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-    'https://code.s3.yandex.net/react/code/sauce-04-mobile.png'
-]
+type Order = OrdersFeed['orders'][0];
 
-const FeedListItem = () => {
+interface FeedListItemProps {
+    order: Order;
+}
+
+const FeedListItem = ({ order }: FeedListItemProps) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const orderId = '034534';
-    const dateFromServer = '2025-10-02T17:33:32.877Z'
+    const { ingredients } = useSelector((state: RootState) => state.burgerIngredients);
+
+    const handleClick = () => {
+        navigate(`/feed/${order.number}`, { state: { backgroundLocation: location } });
+    };
+
+    // Get ingredient images and calculate total price
+    const ingredientImages = order.ingredients.map(ingredientId =>
+        getIngredientImageById(ingredients, ingredientId)
+    ).filter(Boolean); // Filter out empty strings
+
+    const totalPrice = calculateOrderPrice(ingredients, order.ingredients);
 
     return (
-        <div onClick={() => navigate(`/feed/${orderId}`, { state: { backgroundLocation: location } })} className={styles.feed_list_item}>
-            <div className={styles.feed_list_item_date} onClick={() => navigate(`/feed/${orderId}`, { state: { backgroundLocation: location } })}>
-                <p>#034534</p>
-                <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(dateFromServer)} />
+        <div onClick={handleClick} className={styles.feed_list_item}>
+            <div className={styles.feed_list_item_date}>
+                <p>#{order.number}</p>
+                <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(order.createdAt)} />
             </div>
-            <p className="text text_type_main-large">Interstellar бургер</p>
+            <p className="text text_type_main-large">{order.name}</p>
             <div className={styles.feed_list_item_price}>
                 <div className={styles.ingredient_icons}>
-                    {urls.map((url, index) => (
-                        <IngredientIcon key={index} url={url} index={index} />
+                    {ingredientImages.slice(0, 6).map((imageUrl, index) => (
+                        <IngredientIcon key={index} url={imageUrl} index={index} />
                     ))}
+                    {ingredientImages.length > 6 && (
+                        <div className={styles.more_ingredients}>
+                            +{ingredientImages.length - 6}
+                        </div>
+                    )}
                 </div>
-                <Price price={1230} />
+                <Price price={totalPrice} />
             </div>
         </div>
     );

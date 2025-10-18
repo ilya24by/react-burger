@@ -13,8 +13,9 @@
 .feed_number_page_status {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
+  text-align: left;
   flex-direction: column;
   margin-bottom: 60px;
 }
@@ -30,6 +31,7 @@
 .feed_number_page_ingredient_image {
   display: flex;
   align-items: center;
+  text-align: left;
 }
 
 .feed_number_page_date {
@@ -42,4 +44,10 @@
 
 .feed_number_page_date_time {
   color: var(--dark-grey);
+}
+
+.ingredients_list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
 }

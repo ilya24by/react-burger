@@ -46,3 +46,18 @@ export type OrderResponse = {
     },
     "success": boolean
 }
+
+export type OrdersFeed = {
+    success: boolean;
+    orders: Array<{
+        "ingredients": Array<string>,
+        "_id": string,
+        "status": string,
+        "number": number,
+        "createdAt": string,
+        "updatedAt": string
+        "name": string
+    }>;
+    total: number;
+    totalToday: number;
+}
