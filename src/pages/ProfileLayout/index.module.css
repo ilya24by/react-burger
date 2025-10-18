@@ -1,0 +1,5 @@
+.profile_layout_container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 40px;
+}

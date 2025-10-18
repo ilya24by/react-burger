@@ -1,0 +1,7 @@
+.feed_page_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  height: calc(100vh - 200px);
+  overflow: hidden;
+}

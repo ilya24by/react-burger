@@ -1,0 +1,6 @@
+.profile_order_number_page_container {
+  height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from './index.module.css';
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { logoutAsync } from "../../services/thunk/auth";
@@ -8,14 +8,15 @@ import { useEffect } from "react";
 const ProfileMenu = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const { refreshToken, isLogoutLoading, isLogoutError, isLoggedIn } = useAppSelector((state) => state.auth);
 
     const navigateToProfile = () => {
         navigate('/profile');
     };
 
-    const navigateToHistory = () => {
-        navigate('/profile/history');
+    const navigateToOrders = () => {
+        navigate('/profile/orders');
     };
 
     const handleLogout = () => {
@@ -37,18 +38,28 @@ const ProfileMenu = () => {
         }
     }, [isLogoutError]);
 
+    const inferredActiveTab: 'profile' | 'orders' = location.pathname.includes('/profile/orders') ? 'orders' : 'profile';
+
     return (
-        <div className={styles.profile_menu}>
-            <p onClick={navigateToProfile} className={`text text_type_main-large  ${styles.profile_menu_item}`}>
-                Профиль
-            </p>
-            <p onClick={navigateToHistory} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
-                История заказов
-            </p>
-            <p onClick={isLogoutLoading ? undefined : handleLogout} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
-                {isLogoutLoading ? 'Выходим...' : 'Выход'}
+        <div>
+            <div className={styles.profile_menu}>
+                <p onClick={navigateToProfile} className={`text text_type_main-large ${styles.profile_menu_item} ${inferredActiveTab === 'profile' ? '' : 'text_color_inactive'}`}>
+                    Профиль
+                </p>
+                <p onClick={navigateToOrders} className={`text text_type_main-large ${styles.profile_menu_item} ${inferredActiveTab === 'orders' ? '' : 'text_color_inactive'}`}>
+                    История заказов
+                </p>
+                <p onClick={isLogoutLoading ? undefined : handleLogout} className={`text text_type_main-large text_color_inactive ${styles.profile_menu_item}`}>
+                    {isLogoutLoading ? 'Выходим...' : 'Выход'}
+                </p>
+            </div>
+
+            <p className="text text_type_main-default text_color_inactive mt-10">
+                {'В этом разделе вы можете'}<br />
+                {inferredActiveTab === 'profile' ? 'изменить свои персональные данные' : 'просмотреть историю своих заказов'}
             </p>
         </div>
+
     );
 };
 

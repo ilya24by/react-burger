@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { login, register, logout } from "../../api/auth-api";
-import { AuthorizationResponse } from "../../api/types";
+import { login, register, logout, fetchRefreshToken } from "../../api/auth-api";
+import { AuthorizationResponse, RefreshTokenResponse } from "../../api/types";
 import { deleteCookie, getCookie, setCookie } from "../../utils/api";
 import { COOKIE_EXPIRE_TIME_SECONDS } from "../../constants/api";
 import { LoginRequestParams, RegisterRequestParams } from "./types";
@@ -47,3 +47,19 @@ export const initAuth = createAsyncThunk(
         return { accessToken, refreshToken };
     }
 );
+
+export const refreshToken = async (): Promise<RefreshTokenResponse> => {
+    const refreshTokenValue = localStorage.getItem("refreshToken");
+    if (!refreshTokenValue) {
+        throw new Error("No refresh token available");
+    }
+
+    const response = await fetchRefreshToken(refreshTokenValue);
+
+    if (response?.success) {
+        localStorage.setItem('refreshToken', response.refreshToken);
+        setCookie('token', response.accessToken, { expires: COOKIE_EXPIRE_TIME_SECONDS });
+    }
+
+    return response;
+};
