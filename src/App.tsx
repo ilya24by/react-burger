@@ -14,6 +14,7 @@ import {
   ProfileOrdersPage,
   ProfileOrderNumberPage,
   FeedNumberPageModal,
+  ProfileOrderNumberPageModal,
 } from './pages';
 import ProfileLayout from './pages/ProfileLayout';
 import ProtectedRouteElement from './components/ProtectedRouteElement';
@@ -24,9 +25,6 @@ import { useEffect } from 'react';
 function AppRoutes() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
-
-
-  console.log(state?.backgroundLocation);
 
   return (
     <>
@@ -39,8 +37,8 @@ function AppRoutes() {
         <Route path="/profile" element={<ProtectedRouteElement element={<ProfileLayout />} />}>
           <Route index element={<ProfilePage />} />
           <Route path="orders" element={<ProfileOrdersPage />} />
-          <Route path="orders/:number" element={<ProfileOrderNumberPage />} />
         </Route>
+        <Route path="/profile/orders/:number" element={<ProtectedRouteElement element={<ProfileOrderNumberPage />} />} />
         <Route path="/ingredients/:id" element={<IngredientDetails />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/feed/:number" element={<FeedNumberPage />} />
@@ -52,6 +50,7 @@ function AppRoutes() {
         <Routes>
           <Route path="/ingredients/:id" element={<IngredientDetailsModal />} />
           <Route path="/feed/:number" element={<FeedNumberPageModal />} />
+          <Route path="/profile/orders/:number" element={<ProfileOrderNumberPageModal />} />
         </Routes>
       )}
     </>

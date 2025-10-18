@@ -5,7 +5,7 @@ import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-component
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/store';
 import { getIngredientById, calculateOrderPrice } from '../../utils/ingredients';
-import { OrdersFeed } from '../../api/types';
+import { OrdersFeed, OrderStatus } from '../../api/types';
 
 type Order = OrdersFeed['orders'][0];
 
@@ -31,7 +31,7 @@ const FeedDetailsInfo = ({ order }: FeedDetailsInfoProps) => {
 
     const totalPrice = calculateOrderPrice(ingredients, order.ingredients);
 
-    const getStatusInfo = (status: string) => {
+    const getStatusInfo = (status: OrderStatus) => {
         switch (status) {
             case 'done':
                 return { text: 'Выполнен', color: 'var(--colors-interface-success)' };
@@ -39,8 +39,6 @@ const FeedDetailsInfo = ({ order }: FeedDetailsInfoProps) => {
                 return { text: 'Готовится', color: 'var(--colors-interface-accent)' };
             case 'created':
                 return { text: 'Создан', color: 'var(--colors-interface-accent)' };
-            default:
-                return { text: status, color: 'var(--colors-interface-success)' };
         }
     };
 

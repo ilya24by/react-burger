@@ -1,10 +1,10 @@
 import styles from './index.module.css';
-import FeedList from '../../components/FeedList';
+import ProfileOrdersList from '../../components/ProfileOrdersList';
 
 const ProfileOrdersPage = () => {
     return (
         <div className={styles.profile_page_feed_list}>
-            <FeedList />
+            <ProfileOrdersList />
         </div>
     );
 };

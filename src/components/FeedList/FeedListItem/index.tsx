@@ -4,29 +4,41 @@ import Price from '../../../UI/Price';
 import { useLocation, useNavigate } from 'react-router-dom';
 import IngredientIcon from '../../../UI/IngredientIcon';
 import { OrdersFeed } from '../../../api/types';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../services/store';
+import { ProfileOrder } from '../../../services/slices/profileOrdersSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../services/store';
 import { getIngredientImageById, calculateOrderPrice } from '../../../utils/ingredients';
+import { useEffect } from 'react';
+import { getIngredientsAsync } from '../../../services/thunk/ingredients';
 
-type Order = OrdersFeed['orders'][0];
+type FeedOrder = OrdersFeed['orders'][0];
+type Order = FeedOrder | ProfileOrder;
 
 interface FeedListItemProps {
     order: Order;
+    isProfileOrder?: boolean;
 }
 
-const FeedListItem = ({ order }: FeedListItemProps) => {
+const FeedListItem = ({ order, isProfileOrder }: FeedListItemProps) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { ingredients } = useSelector((state: RootState) => state.burgerIngredients);
+    const dispatch = useDispatch<AppDispatch>();
+    const { ingredients, loading } = useSelector((state: RootState) => state.burgerIngredients);
+
+    useEffect(() => {
+        if (ingredients.length === 0 && !loading) {
+            dispatch(getIngredientsAsync());
+        }
+    }, [dispatch, ingredients.length, loading]);
 
     const handleClick = () => {
-        navigate(`/feed/${order.number}`, { state: { backgroundLocation: location } });
+        const basePath = isProfileOrder ? '/profile/orders' : '/feed';
+        navigate(`${basePath}/${order.number}`, { state: { backgroundLocation: location } });
     };
-
-    // Get ingredient images and calculate total price
+    console.log(order, ingredients);
     const ingredientImages = order.ingredients.map(ingredientId =>
         getIngredientImageById(ingredients, ingredientId)
-    ).filter(Boolean); // Filter out empty strings
+    ).filter(Boolean);
 
     const totalPrice = calculateOrderPrice(ingredients, order.ingredients);
 
@@ -36,7 +48,9 @@ const FeedListItem = ({ order }: FeedListItemProps) => {
                 <p>#{order.number}</p>
                 <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(order.createdAt)} />
             </div>
-            <p className="text text_type_main-large">{order.name}</p>
+            <p className="text text_type_main-large">
+                {order.name}
+            </p>
             <div className={styles.feed_list_item_price}>
                 <div className={styles.ingredient_icons}>
                     {ingredientImages.slice(0, 6).map((imageUrl, index) => (

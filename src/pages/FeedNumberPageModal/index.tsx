@@ -1,21 +1,32 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../services/store';
+import { getIngredientsAsync } from '../../services/thunk/ingredients';
 import Modal from "../../components/Modal";
 import FeedDetailsInfo from "../../components/FeedDetailsInfo";
 import Loader from '../../components/Loader';
 import commonStyles from '../../styles/common.module.css';
+import { useOrderDetails } from '../../hooks/useOrderDetails';
 
 const FeedNumberPageModal = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
     const { number } = useParams<{ number: string }>();
-    const { orders, isConnected } = useSelector((state: RootState) => state.feed);
+    const { order, isLoading, error } = useOrderDetails(number || '', 'feed');
+    const { ingredients, loading } = useSelector((state: RootState) => state.burgerIngredients);
+
+    useEffect(() => {
+        if (ingredients.length === 0 && !loading) {
+            dispatch(getIngredientsAsync());
+        }
+    }, [dispatch, ingredients.length, loading]);
 
     const handleCloseIngredientDetails = () => {
         navigate(-1);
     };
 
-    if (!isConnected) {
+    if (isLoading) {
         return (
             <Modal onClose={handleCloseIngredientDetails}>
                 <Loader />
@@ -23,7 +34,15 @@ const FeedNumberPageModal = () => {
         );
     }
 
-    const order = orders.find(order => order.number.toString() === number);
+    if (error) {
+        return (
+            <Modal onClose={handleCloseIngredientDetails}>
+                <div className={commonStyles.error}>
+                    {error}
+                </div>
+            </Modal>
+        );
+    }
 
     if (!order) {
         return (
@@ -36,11 +55,9 @@ const FeedNumberPageModal = () => {
     }
 
     return (
-        <div>
-            <Modal onClose={handleCloseIngredientDetails}>
-                <FeedDetailsInfo order={order} />
-            </Modal>
-        </div>
+        <Modal onClose={handleCloseIngredientDetails}>
+            <FeedDetailsInfo order={order} />
+        </Modal>
     );
 };
 
