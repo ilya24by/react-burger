@@ -1,5 +1,5 @@
 import AppHeader from './components/AppHeader';
-import { Route, BrowserRouter, Routes, useLocation, Location } from 'react-router-dom';
+import { Route, BrowserRouter, Routes, useLocation } from 'react-router-dom';
 import {
   HomePage,
   LoginPage,
@@ -21,19 +21,14 @@ import ProtectedRouteElement from './components/ProtectedRouteElement';
 import { useAppDispatch } from './services/hooks';
 import { initAuth } from './services/thunk/auth';
 import { useEffect } from 'react';
-import { getBackgroundLocationForModalRoute } from './utils/routing';
 
 function AppRoutes() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 
-  const isModalRoute = location.pathname.match(/^\/(ingredients|feed|profile\/orders)\/\w+$/);
-
-  const backgroundLocation = state?.backgroundLocation || (isModalRoute ? getBackgroundLocationForModalRoute(location.pathname) : null);
-
   return (
     <>
-      <Routes location={backgroundLocation || location}>
+      <Routes location={state?.backgroundLocation || location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<ProtectedRouteElement isAccessDeniedAfterAuth element={<LoginPage />} />} />
         <Route path="/register" element={<ProtectedRouteElement isAccessDeniedAfterAuth element={<RegisterPage />} />} />
@@ -51,7 +46,7 @@ function AppRoutes() {
         <Route path="*" element={null} />
       </Routes>
 
-      {backgroundLocation && (
+      {state?.backgroundLocation && (
         <Routes>
           <Route path="/ingredients/:id" element={<IngredientDetailsModal />} />
           <Route path="/feed/:number" element={<FeedNumberPageModal />} />
@@ -61,8 +56,6 @@ function AppRoutes() {
     </>
   );
 }
-
-
 
 function App() {
   const dispatch = useAppDispatch();

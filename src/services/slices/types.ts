@@ -31,6 +31,8 @@ export type AuthState = {
 
     isLogoutLoading: boolean;
     isLogoutError: boolean;
+
+    isInitLoading: boolean;
 }
 
 export type ResetPasswordState = {
