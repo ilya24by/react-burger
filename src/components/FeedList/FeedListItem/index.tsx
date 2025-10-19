@@ -5,8 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import IngredientIcon from '../../../UI/IngredientIcon';
 import { OrdersFeed } from '../../../api/types';
 import { ProfileOrder } from '../../../services/slices/profileOrdersSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../../services/store';
+import { useAppDispatch, useAppSelector } from '../../../services/hooks';
 import { getIngredientImageById, calculateOrderPrice } from '../../../utils/ingredients';
 import { useEffect } from 'react';
 import { getIngredientsAsync } from '../../../services/thunk/ingredients';
@@ -22,8 +21,8 @@ interface FeedListItemProps {
 const FeedListItem = ({ order, isProfileOrder }: FeedListItemProps) => {
     const navigate = useNavigate();
     const location = useLocation();
-    const dispatch = useDispatch<AppDispatch>();
-    const { ingredients, loading } = useSelector((state: RootState) => state.burgerIngredients);
+    const dispatch = useAppDispatch();
+    const { ingredients, loading } = useAppSelector((state) => state.burgerIngredients);
 
     useEffect(() => {
         if (ingredients.length === 0 && !loading) {

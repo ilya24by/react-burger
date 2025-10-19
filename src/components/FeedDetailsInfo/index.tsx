@@ -2,8 +2,7 @@ import styles from './index.module.css';
 import IngredientIcon from '../../UI/IngredientIcon';
 import Price from '../../UI/Price';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useAppSelector } from '../../services/hooks';
 import { getIngredientById, calculateOrderPrice } from '../../utils/ingredients';
 import { OrdersFeed, OrderStatus } from '../../api/types';
 
@@ -14,7 +13,7 @@ interface FeedDetailsInfoProps {
 }
 
 const FeedDetailsInfo = ({ order }: FeedDetailsInfoProps) => {
-    const { ingredients } = useSelector((state: RootState) => state.burgerIngredients);
+    const { ingredients } = useAppSelector((state) => state.burgerIngredients);
 
     const ingredientCounts = order.ingredients.reduce((acc, ingredientId) => {
         acc[ingredientId] = (acc[ingredientId] || 0) + 1;

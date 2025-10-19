@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { getIngredientsAsync } from '../../services/thunk/ingredients';
 import FeedDetailsInfo from '../../components/FeedDetailsInfo';
 import Loader from '../../components/Loader';
@@ -10,10 +9,10 @@ import styles from './index.module.css';
 import { useOrderDetails } from '../../hooks/useOrderDetails';
 
 const ProfileOrderNumberPage = () => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch();
     const { number } = useParams<{ number: string }>();
     const { order, isLoading, error } = useOrderDetails(number || '', 'profileOrders');
-    const { ingredients, loading } = useSelector((state: RootState) => state.burgerIngredients);
+    const { ingredients, loading } = useAppSelector((state) => state.burgerIngredients);
 
     useEffect(() => {
         if (ingredients.length === 0 && !loading) {

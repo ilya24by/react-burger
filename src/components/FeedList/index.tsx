@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { connect, disconnect } from '../../services/slices/feedSlice';
 import FeedListItem from "./FeedListItem";
 import styles from './index.module.css';
 
 const FeedList = () => {
-    const dispatch = useDispatch();
-    const { orders, isConnected, error } = useSelector((state: RootState) => state.feed);
+    const dispatch = useAppDispatch();
+    const { orders, isConnected, error } = useAppSelector((state) => state.feed);
 
     useEffect(() => {
         dispatch(connect('wss://norma.nomoreparties.space/orders/all'));

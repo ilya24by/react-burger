@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 import { connectProfileOrders, disconnectProfileOrders } from '../../services/slices/profileOrdersSlice';
 import FeedListItem from '../FeedList/FeedListItem';
 import styles from './index.module.css';
 
 const ProfileOrdersList = () => {
-    const dispatch = useDispatch();
-    const { orders, isConnected, error } = useSelector((state: RootState) => state.profileOrders);
-    const { accessToken } = useSelector((state: RootState) => state.auth);
+    const dispatch = useAppDispatch();
+    const { orders, isConnected, error } = useAppSelector((state) => state.profileOrders);
+    const { accessToken } = useAppSelector((state) => state.auth);
 
     useEffect(() => {
         if (accessToken) {

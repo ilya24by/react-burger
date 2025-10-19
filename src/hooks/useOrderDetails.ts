@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../services/hooks';
 import { RootState } from '../services/store';
 import { fetchOrderByNumber } from '../api/burger-api';
 import { OrdersFeed } from '../api/types';
@@ -18,7 +18,7 @@ export const useOrderDetails = (orderNumber: string, feedType: 'feed' | 'profile
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const feedState = useSelector((state: RootState) =>
+    const feedState = useAppSelector((state: RootState) =>
         feedType === 'feed' ? state.feed : state.profileOrders
     );
 

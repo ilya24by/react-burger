@@ -1,9 +1,8 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store';
+import { useAppSelector } from '../../services/hooks';
 import styles from './index.module.css';
 
 const FeedStatus = () => {
-    const { orders, total, totalToday } = useSelector((state: RootState) => state.feed);
+    const { orders, total, totalToday } = useAppSelector((state) => state.feed);
 
     const doneOrders = orders.filter(order => order.status === 'done');
     const inProgressOrders = orders.filter(order => order.status === 'pending' || order.status === 'created');
