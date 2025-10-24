@@ -10,6 +10,7 @@ const initialState: Partial<AuthState> = {
     isLogoutLoading: false,
     isLogoutError: false,
     isLoggedIn: false,
+    isInitLoading: true,
 };
 
 const authSlice = createSlice({
@@ -26,6 +27,10 @@ const authSlice = createSlice({
                 state.accessToken = action.payload.accessToken;
                 state.refreshToken = action.payload.refreshToken;
                 state.isLoggedIn = !!action.payload.accessToken;
+                state.isInitLoading = false;
+            })
+            .addCase(initAuth.rejected, (state) => {
+                state.isInitLoading = false;
             })
             .addCase(loginAsync.fulfilled, (state, action) => {
                 state.user = action.payload.user;

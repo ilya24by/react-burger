@@ -1,0 +1,8 @@
+.profile_page_feed_list {
+  display: flex;
+  flex: 1;
+  margin-top: 40px;
+  margin-left: 60px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+}

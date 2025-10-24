@@ -46,3 +46,33 @@ export type OrderResponse = {
     },
     "success": boolean
 }
+
+export type OrderStatus = 'created' | 'pending' | 'done';
+
+export type OrdersFeed = {
+    success: boolean;
+    orders: Array<{
+        "ingredients": Array<string>,
+        "_id": string,
+        "status": OrderStatus,
+        "number": number,
+        "createdAt": string,
+        "updatedAt": string
+        "name": string
+    }>;
+    total: number;
+    totalToday: number;
+}
+
+export type SingleOrderResponse = {
+    success: boolean;
+    orders: Array<{
+        "ingredients": Array<string>,
+        "_id": string,
+        "status": OrderStatus,
+        "number": number,
+        "createdAt": string,
+        "updatedAt": string
+        "name": string
+    }>;
+}

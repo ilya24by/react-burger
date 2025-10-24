@@ -6,5 +6,11 @@ import ResetPasswordPage from './ResetPasswordPage';
 import ProfilePage from './ProfilePage';
 import IngredientDetailsModal from './IngredientDetailsModal';
 import IngredientDetails from './IngredientDetails';
+import FeedPage from './FeedPage';
+import FeedNumberPage from './FeedNumberPage';
+import ProfileOrdersPage from './ProfileOrdersPage';
+import ProfileOrderNumberPage from './ProfileOrderNumberPage';
+import FeedNumberPageModal from './FeedNumberPageModal';
+import ProfileOrderNumberPageModal from './ProfileOrderNumberPageModal';
 
-export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsModal, IngredientDetails };
+export { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, ProfilePage, IngredientDetailsModal, IngredientDetails, FeedPage, FeedNumberPage, ProfileOrdersPage, ProfileOrderNumberPage, FeedNumberPageModal, ProfileOrderNumberPageModal };
