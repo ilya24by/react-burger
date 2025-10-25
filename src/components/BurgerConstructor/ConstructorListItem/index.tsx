@@ -44,8 +44,8 @@ const ConstructorListItem = ({ item, position, index, onMove }: ConstructorListI
     }
 
     return (
-        <div ref={ref} className={styles.constructor_list_item} style={{ opacity: isDragging ? 0.5 : 1 }}>
-            {!position ? <DragIcon type="primary" /> : <div style={{ width: 24 }} />}
+        <div ref={ref} className={styles.constructor_list_item} style={{ opacity: isDragging ? 0.5 : 1 }} data-testid="constructor-item">
+            {!position ? <DragIcon type="primary" data-testid="drag-icon" /> : <div style={{ width: 24 }} />}
             <ConstructorElement
                 type={position}
                 isLocked={type === 'bun'}
@@ -54,6 +54,13 @@ const ConstructorListItem = ({ item, position, index, onMove }: ConstructorListI
                 thumbnail={image}
                 handleClose={handleRemoveIngredient}
             />
+            {!position && (
+                <button
+                    onClick={handleRemoveIngredient}
+                    data-testid="remove-ingredient"
+                    style={{ display: 'none' }}
+                />
+            )}
         </div>
 
     );

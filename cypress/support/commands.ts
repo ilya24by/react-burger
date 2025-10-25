@@ -24,14 +24,36 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+// Custom drag and drop command for React DnD
+Cypress.Commands.add('dragTo', { prevSubject: 'element' }, (subject, targetSelector) => {
+    const dataTransfer = new DataTransfer();
+
+    return cy.wrap(subject)
+        .trigger('dragstart', { dataTransfer })
+        .get(targetSelector)
+        .trigger('dragenter', { dataTransfer })
+        .trigger('dragover', { dataTransfer })
+        .trigger('drop', { dataTransfer });
+});
+
+// Custom command for reordering constructor items
+Cypress.Commands.add('reorderConstructorItem', { prevSubject: 'element' }, (subject, targetSelector) => {
+    const dataTransfer = new DataTransfer();
+
+    return cy.wrap(subject)
+        .trigger('dragstart', { dataTransfer })
+        .get(targetSelector)
+        .trigger('dragenter', { dataTransfer })
+        .trigger('dragover', { dataTransfer })
+        .trigger('drop', { dataTransfer });
+});
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            dragTo(targetSelector: string): Chainable<Element>
+            reorderConstructorItem(targetSelector: string): Chainable<Element>
+        }
+    }
+}

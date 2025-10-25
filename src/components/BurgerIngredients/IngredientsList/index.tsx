@@ -9,7 +9,7 @@ const IngredientsList = ({ ingredients }: BurgerIngredientsProps) => {
     const rootRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div ref={rootRef} className={styles.ingredients_list}>
+        <div ref={rootRef} className={styles.ingredients_list} data-testid="ingredients-list">
             {ingrediendsSections.map(ingredientsSection => {
                 return (
                     <IngredientsListSection

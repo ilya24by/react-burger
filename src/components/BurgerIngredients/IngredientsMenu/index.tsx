@@ -30,7 +30,7 @@ const BurgerMenu = () => {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} data-testid="ingredients-menu">
             <Tab value="bun" active={currentMenuView === 'bun'} onClick={() => handleSetCurrentMenuView('bun')}>
                 Булки
             </Tab>
