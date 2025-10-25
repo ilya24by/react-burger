@@ -12,7 +12,7 @@ const ProfileOrdersList = () => {
     useEffect(() => {
         if (accessToken) {
             const token = accessToken.replace('Bearer ', '');
-            const wsUrl = `wss://norma.nomoreparties.space/orders?token=${token}`;
+            const wsUrl = `wss://norma.education-services.ru/orders?token=${token}`;
             dispatch(connectProfileOrders(wsUrl));
         }
 

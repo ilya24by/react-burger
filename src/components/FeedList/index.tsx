@@ -9,7 +9,7 @@ const FeedList = () => {
     const { orders, isConnected, error } = useAppSelector((state) => state.feed);
 
     useEffect(() => {
-        dispatch(connect('wss://norma.nomoreparties.space/orders/all'));
+        dispatch(connect('wss://norma.education-services.ru/orders/all'));
 
         return () => {
             dispatch(disconnect());
