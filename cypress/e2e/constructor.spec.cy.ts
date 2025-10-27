@@ -1,35 +1,50 @@
+import { TEST_URL } from '../constants';
+
 describe('Constructor Page Functionality', () => {
     beforeEach(() => {
         // Visit the home page where the constructor is located
-        cy.visit('http://localhost:3000');
+        cy.visit(TEST_URL);
 
         // Wait for ingredients to load
         cy.get('[data-testid="ingredients-section"]', { timeout: 10000 }).should('be.visible');
+        // Only alias elements that exist on page load
+        cy.get('[data-testid="ingredient-item"]').as('ingredientItems');
+        cy.get('[data-testid="constructor-section"]').as('constructorSection');
+        cy.get('[data-testid="order-button"]').as('orderButton');
     });
 
     // Helper function to login with real credentials
     const loginUser = () => {
-        cy.visit('http://localhost:3000/login');
+        cy.visit(`${TEST_URL}/login`);
 
         // Wait for login page to load
-        cy.get('input[type="email"]', { timeout: 10000 }).should('be.visible');
+        cy.get('input[type="email"]', { timeout: 10000 });
+        cy.get('input[type="password"]');
+        cy.get('button[type="submit"]');
 
-        cy.get('input[type="email"]').type('lifires333@cspaus.com');
-        cy.get('input[type="password"]').type('qwerty123');
-        cy.get('button[type="submit"]').click();
+        // Use fixture data directly
+        cy.fixture('user').then((userData: { email: string; password: string }) => {
+            cy.get('input[type="email"]').type(userData.email);
+            cy.get('input[type="password"]').type(userData.password);
+            cy.get('button[type="submit"]').click();
+        });
 
         // Wait for redirect to home page
         cy.url({ timeout: 10000 }).should('include', '/');
 
         // Navigate back to constructor page
-        cy.visit('http://localhost:3000/');
+        cy.visit(TEST_URL);
     };
 
     describe('Ingredient Loading and Display', () => {
         it('should load and display ingredients correctly', () => {
+            // Create aliases for ingredients UI elements
+            cy.get('[data-testid="ingredients-menu"]').as('ingredientsMenu');
+            cy.get('[data-testid="ingredients-list"]').as('ingredientsList');
+
             // Check that ingredients sections are visible
-            cy.get('[data-testid="ingredients-menu"]').should('be.visible');
-            cy.get('[data-testid="ingredients-list"]').should('be.visible');
+            cy.get('@ingredientsMenu').should('be.visible');
+            cy.get('@ingredientsList').should('be.visible');
 
             // Check that ingredient categories are present
             cy.contains('Булки').should('be.visible');
@@ -37,20 +52,20 @@ describe('Constructor Page Functionality', () => {
             cy.contains('Начинки').should('be.visible');
 
             // Check that individual ingredients are displayed
-            cy.get('[data-testid="ingredient-item"]').should('have.length.greaterThan', 0);
+            cy.get('@ingredientItems').should('have.length.greaterThan', 0);
         });
     });
 
     describe('Drag and Drop Functionality', () => {
         it('should allow dragging ingredients to constructor', () => {
             // First, drag a bun to the constructor
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('@constructorSection');
 
             // Check that the bun appears in the constructor
             cy.get('[data-testid="constructor-list"]').should('contain.text', 'булка');
 
             // Drag additional ingredients
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('@constructorSection');
 
             // Verify ingredients are added
             cy.get('[data-testid="constructor-list"]').children().should('have.length.greaterThan', 1);
@@ -58,7 +73,7 @@ describe('Constructor Page Functionality', () => {
 
         it('should show alert when trying to add non-bun ingredient without bun', () => {
             // Try to drag a non-bun ingredient first
-            cy.get('[data-testid="ingredient-item"]').not(':contains("булка")').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').not(':contains("булка")').first().dragTo('@constructorSection');
 
             // Check for alert message
             cy.on('window:alert', (str) => {
@@ -68,11 +83,11 @@ describe('Constructor Page Functionality', () => {
 
         it('should allow reordering ingredients in constructor', () => {
             // Add multiple ingredients first
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('@constructorSection');
 
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('@constructorSection');
 
-            cy.get('[data-testid="ingredient-item"]').eq(2).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(2).dragTo('@constructorSection');
 
             // Wait for ingredients to be added
             cy.get('[data-testid="constructor-list"]').children().should('have.length.greaterThan', 2);
@@ -114,7 +129,7 @@ describe('Constructor Page Functionality', () => {
 
         it('should update ingredient counters when adding ingredients', () => {
             // Add an ingredient to constructor
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
             // Wait for the ingredient to be added to constructor
             cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
@@ -153,9 +168,9 @@ describe('Constructor Page Functionality', () => {
     describe('Price Calculation', () => {
         it('should calculate and display correct total price', () => {
             // Add ingredients
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
             // Check that price is displayed and greater than 0
             cy.get('[data-testid="total-price"]').should('be.visible');
@@ -169,14 +184,14 @@ describe('Constructor Page Functionality', () => {
     describe('Order Creation Flow', () => {
         beforeEach(() => {
             // Add ingredients to constructor
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
         });
 
         it('should redirect to login when user is not authenticated', () => {
             // Click order button without being logged in
-            cy.get('[data-testid="order-button"]').click();
+            cy.get('@orderButton').click();
 
             // Should redirect to login page
             cy.url().should('include', 'login');
@@ -192,10 +207,10 @@ describe('Constructor Page Functionality', () => {
                 cy.log(`Constructor currently has ${ingredientCount} ingredients`);
 
                 // Test order button behavior
-                cy.get('[data-testid="order-button"]').should('be.visible').and('be.enabled');
+                cy.get('@orderButton').should('be.visible').and('be.enabled');
 
                 // Click the order button
-                cy.get('[data-testid="order-button"]').click();
+                cy.get('@orderButton').click();
 
                 // Check what happens - either redirect to login or show alert
                 cy.url().then((url) => {
@@ -223,17 +238,17 @@ describe('Constructor Page Functionality', () => {
             loginUser();
 
             // Add ingredients to constructor
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
             // Wait for ingredients to be added
             cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
 
             // Check that order button is enabled
-            cy.get('[data-testid="order-button"]').should('be.visible').and('be.enabled');
+            cy.get('@orderButton').should('be.visible').and('be.enabled');
 
             // Click order button
-            cy.get('[data-testid="order-button"]').click();
+            cy.get('@orderButton').click();
 
             // Wait a moment for any immediate response
             cy.wait(1000);
@@ -243,7 +258,7 @@ describe('Constructor Page Functionality', () => {
                 // Check if we're still on the constructor page
                 if ($body.find('[data-testid="order-button"]').length > 0) {
                     // Button still exists, check its state
-                    cy.get('[data-testid="order-button"]').then(($button) => {
+                    cy.get('@orderButton').then(($button) => {
                         const buttonText = $button.text();
                         cy.log(`Order button text after click: "${buttonText}"`);
 
@@ -312,7 +327,7 @@ describe('Constructor Page Functionality', () => {
             });
 
             // Add ingredients to constructor
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
             cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
 
             // Mock failed order API response
@@ -322,7 +337,7 @@ describe('Constructor Page Functionality', () => {
             }).as('createOrderError');
 
             // Click order button
-            cy.get('[data-testid="order-button"]').click();
+            cy.get('@orderButton').click();
 
             // Wait a moment for any response
             cy.wait(2000);
@@ -332,7 +347,7 @@ describe('Constructor Page Functionality', () => {
                 // Check if we're still on the constructor page
                 if ($body.find('[data-testid="order-button"]').length > 0) {
                     // Button still exists, check its state
-                    cy.get('[data-testid="order-button"]').then(($button) => {
+                    cy.get('@orderButton').then(($button) => {
                         const buttonText = $button.text();
                         cy.log(`Order button text after error: "${buttonText}"`);
 
@@ -402,15 +417,14 @@ describe('Constructor Page Functionality', () => {
 
             // Click order button
             cy.get('[data-testid="order-button"]').click();
-
-            // Wait for potential modal to appear
-            cy.wait(3000);
         });
 
         it('should display order details modal correctly', () => {
-            // Check if modal appeared
+            // Check if modal appeared (don't use should which retries)
             cy.get('body').then(($body) => {
-                if ($body.find('[data-testid="order-details-modal"]').length > 0) {
+                const modal = $body.find('[data-testid="order-details-modal"]');
+
+                if (modal.length > 0) {
                     // Modal appeared, test it
                     cy.get('[data-testid="order-details-modal"]').should('be.visible');
 
@@ -490,9 +504,9 @@ describe('Constructor Page Functionality', () => {
     describe('Ingredient Removal', () => {
         it('should allow removing ingredients from constructor', () => {
             // Add ingredients
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
             // Wait for ingredients to be added
             cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
@@ -547,7 +561,7 @@ describe('Constructor Page Functionality', () => {
 
         it('should update counters when removing ingredients', () => {
             // Add ingredient
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
             // Wait for ingredient to be added
             cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
@@ -559,7 +573,7 @@ describe('Constructor Page Functionality', () => {
 
                 if (counters.length > 0) {
                     // Counter exists, test removal
-                    cy.get('[data-testid="ingredient-item"]').first().find('[data-testid="counter"]').should('be.visible');
+                    cy.get('@ingredientItems').first().find('[data-testid="counter"]').should('be.visible');
 
                     // Try to remove ingredient
                     cy.get('[data-testid="constructor-item"]').first().then(($item) => {
@@ -603,12 +617,12 @@ describe('Constructor Page Functionality', () => {
             loginUser();
 
             // Step 1: Add bun
-            cy.get('[data-testid="ingredient-item"]').first().dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
             // Step 2: Add additional ingredients
-            cy.get('[data-testid="ingredient-item"]').eq(1).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
-            cy.get('[data-testid="ingredient-item"]').eq(2).dragTo('[data-testid="constructor-section"]');
+            cy.get('@ingredientItems').eq(2).dragTo('[data-testid="constructor-section"]');
 
             // Step 3: Verify ingredients are in constructor
             cy.get('[data-testid="constructor-list"]').children().should('have.length.greaterThan', 1);
@@ -622,7 +636,7 @@ describe('Constructor Page Functionality', () => {
             });
 
             // Step 5: Create order
-            cy.get('[data-testid="order-button"]').click();
+            cy.get('@orderButton').click();
 
             // Wait for any response
             cy.wait(3000);
