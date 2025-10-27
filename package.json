@@ -31,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "cypress:open": "./node_modules/.bin/cypress open"
+    "cypress:open": "./node_modules/.bin/cypress open",
+    "deploy": "scp -i ~/.ssh/ssh-key-1761390466325 -r ./build/* ilya24by@158.160.203.95:/home/ilya24by/stellar-frontend"
   },
   "eslintConfig": {
     "extends": [
