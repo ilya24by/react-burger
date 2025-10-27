@@ -17,16 +17,16 @@ describe('Constructor Page Functionality', () => {
     const loginUser = () => {
         cy.visit(`${TEST_URL}/login`);
 
-        // Wait for login page to load
-        cy.get('input[type="email"]', { timeout: 10000 });
-        cy.get('input[type="password"]');
-        cy.get('button[type="submit"]');
+        // Wait for login page to load and create aliases
+        cy.get('input[type="email"]', { timeout: 10000 }).as('emailInput');
+        cy.get('input[type="password"]').as('passwordInput');
+        cy.get('button[type="submit"]').as('submitButton');
 
         // Use fixture data directly
         cy.fixture('user').then((userData: { email: string; password: string }) => {
-            cy.get('input[type="email"]').type(userData.email);
-            cy.get('input[type="password"]').type(userData.password);
-            cy.get('button[type="submit"]').click();
+            cy.get('@emailInput').type(userData.email);
+            cy.get('@passwordInput').type(userData.password);
+            cy.get('@submitButton').click();
         });
 
         // Wait for redirect to home page
@@ -92,26 +92,26 @@ describe('Constructor Page Functionality', () => {
             // Wait for ingredients to be added
             cy.get('[data-testid="constructor-list"]').children().should('have.length.greaterThan', 2);
 
-            // Wait for constructor items to be rendered
-            cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 2);
+            // Wait for constructor items to be rendered and create alias
+            cy.get('[data-testid="constructor-item"]').as('constructorItems').should('have.length.greaterThan', 2);
 
             // Test drag functionality without requiring drag icons to be visible
-            cy.get('[data-testid="constructor-item"]').then(($items) => {
+            cy.get('@constructorItems').then(($items) => {
                 if ($items.length >= 3) {
                     // Test that drag functionality works by checking visual feedback
-                    cy.get('[data-testid="constructor-item"]').eq(1).trigger('dragstart');
+                    cy.get('@constructorItems').eq(1).trigger('dragstart');
 
                     // Verify that the dragged item has visual feedback (opacity change)
-                    cy.get('[data-testid="constructor-item"]').eq(1).should('have.css', 'opacity', '0.5');
+                    cy.get('@constructorItems').eq(1).should('have.css', 'opacity', '0.5');
 
                     // Complete the drag operation by dropping on another item
-                    cy.get('[data-testid="constructor-item"]').eq(2).trigger('drop');
+                    cy.get('@constructorItems').eq(2).trigger('drop');
 
                     // Verify the drag operation completed
-                    cy.get('[data-testid="constructor-item"]').eq(1).should('not.have.css', 'opacity', '0.5');
+                    cy.get('@constructorItems').eq(1).should('not.have.css', 'opacity', '0.5');
 
                     // Verify ingredients are still present after drag operation
-                    cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 2);
+                    cy.get('@constructorItems').should('have.length.greaterThan', 2);
 
                     // Test that drag functionality is available (items can be dragged)
                     cy.log('Drag functionality test completed successfully');
@@ -119,10 +119,10 @@ describe('Constructor Page Functionality', () => {
                     cy.log('Not enough ingredients for reordering test - verifying basic drag functionality');
 
                     // Test basic drag functionality on any available item
-                    cy.get('[data-testid="constructor-item"]').first().trigger('dragstart');
-                    cy.get('[data-testid="constructor-item"]').first().should('have.css', 'opacity', '0.5');
-                    cy.get('[data-testid="constructor-item"]').first().trigger('drop');
-                    cy.get('[data-testid="constructor-item"]').first().should('not.have.css', 'opacity', '0.5');
+                    cy.get('@constructorItems').first().trigger('dragstart');
+                    cy.get('@constructorItems').first().should('have.css', 'opacity', '0.5');
+                    cy.get('@constructorItems').first().trigger('drop');
+                    cy.get('@constructorItems').first().should('not.have.css', 'opacity', '0.5');
                 }
             });
         });
@@ -131,21 +131,18 @@ describe('Constructor Page Functionality', () => {
             // Add an ingredient to constructor
             cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
-            // Wait for the ingredient to be added to constructor
-            cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
-
-            // Wait for counter state to update
-            cy.wait(1000);
+            // Wait for the ingredient to be added to constructor and create alias
+            cy.get('[data-testid="constructor-item"]').as('constructorItems').should('have.length.greaterThan', 0);
 
             // Check if counters exist anywhere in the DOM
             cy.get('body').then(($body) => {
                 const allCounters = $body.find('[data-testid="counter"]');
 
                 if (allCounters.length > 0) {
-                    // Counters exist, verify they work
+                    // Counters exist, create alias and verify they work
                     cy.log(`Found ${allCounters.length} counters in DOM`);
-                    cy.get('[data-testid="counter"]').first().should('be.visible');
-                    cy.get('[data-testid="counter"]').first().invoke('text').then((text) => {
+                    cy.get('[data-testid="counter"]').as('counter').first().should('be.visible');
+                    cy.get('@counter').first().invoke('text').then((text) => {
                         const count = parseInt(text);
                         expect(count).to.be.greaterThan(0);
                         cy.log(`Counter shows: ${count}`);
@@ -155,11 +152,11 @@ describe('Constructor Page Functionality', () => {
                     cy.log('No counters found - this might indicate the counter feature is not working');
 
                     // Verify that the core functionality (adding ingredients) works
-                    cy.get('[data-testid="constructor-item"]').should('be.visible');
+                    cy.get('@constructorItems').should('be.visible');
                     cy.log('Ingredient was successfully added to constructor');
 
                     // This test passes if ingredients can be added, even if counters don't work
-                    cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
+                    cy.get('@constructorItems').should('have.length.greaterThan', 0);
                 }
             });
         });
@@ -172,9 +169,9 @@ describe('Constructor Page Functionality', () => {
 
             cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
-            // Check that price is displayed and greater than 0
-            cy.get('[data-testid="total-price"]').should('be.visible');
-            cy.get('[data-testid="total-price"]').invoke('text').then((priceText) => {
+            // Check that price is displayed and greater than 0, create alias
+            cy.get('[data-testid="total-price"]').as('totalPrice').should('be.visible');
+            cy.get('@totalPrice').invoke('text').then((priceText) => {
                 const price = parseInt(priceText.replace(/\D/g, ''));
                 expect(price).to.be.greaterThan(0);
             });
@@ -268,10 +265,10 @@ describe('Constructor Page Functionality', () => {
                             // Wait for potential modal
                             cy.wait(3000);
 
-                            // Check for modal
+                            // Check for modal and create alias if it exists
                             cy.get('body').then(($body) => {
                                 if ($body.find('[data-testid="order-details-modal"]').length > 0) {
-                                    cy.get('[data-testid="order-details-modal"]').should('be.visible');
+                                    cy.get('[data-testid="order-details-modal"]').as('orderModal').should('be.visible');
                                     cy.log('Order details modal appeared successfully');
                                 } else {
                                     cy.log('No modal appeared after loading state');
@@ -280,10 +277,10 @@ describe('Constructor Page Functionality', () => {
                         } else {
                             cy.log('Order button does not show loading state');
 
-                            // Check for modal anyway
+                            // Check for modal anyway and create alias if it exists
                             cy.get('body').then(($body) => {
                                 if ($body.find('[data-testid="order-details-modal"]').length > 0) {
-                                    cy.get('[data-testid="order-details-modal"]').should('be.visible');
+                                    cy.get('[data-testid="order-details-modal"]').as('orderModal').should('be.visible');
                                     cy.log('Order details modal appeared without loading state');
                                 } else {
                                     cy.log('No modal appeared, order button functionality verified');
@@ -508,16 +505,16 @@ describe('Constructor Page Functionality', () => {
 
             cy.get('@ingredientItems').eq(1).dragTo('[data-testid="constructor-section"]');
 
-            // Wait for ingredients to be added
-            cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
+            // Wait for ingredients to be added and create alias
+            cy.get('[data-testid="constructor-item"]').as('constructorItems').should('have.length.greaterThan', 0);
 
             // Get initial count
-            cy.get('[data-testid="constructor-item"]').then(($items) => {
+            cy.get('@constructorItems').then(($items) => {
                 const initialCount = $items.length;
                 cy.log(`Initial constructor item count: ${initialCount}`);
 
                 // Check what's available in the first constructor item
-                cy.get('[data-testid="constructor-item"]').first().then(($item) => {
+                cy.get('@constructorItems').first().then(($item) => {
                     const buttons = $item.find('button');
                     const closeButtons = $item.find('[data-testid="remove-ingredient"]');
                     const allClickableElements = $item.find('button, [role="button"], [onclick]');
@@ -528,24 +525,21 @@ describe('Constructor Page Functionality', () => {
 
                     if (buttons.length > 0) {
                         // Try clicking the last button (usually the close button)
-                        cy.get('[data-testid="constructor-item"]').first().find('button').last().click();
+                        cy.get('@constructorItems').first().find('button').last().click();
                         cy.log('Clicked last button in constructor item');
                     } else if (closeButtons.length > 0) {
                         // Try clicking the remove-ingredient element
-                        cy.get('[data-testid="constructor-item"]').first().find('[data-testid="remove-ingredient"]').click();
+                        cy.get('@constructorItems').first().find('[data-testid="remove-ingredient"]').click();
                         cy.log('Clicked remove-ingredient element');
                     } else {
                         // No removal mechanism found, but test can still pass
                         cy.log('No removal mechanism found in constructor item');
-                        cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
+                        cy.get('@constructorItems').should('have.length.greaterThan', 0);
                         return;
                     }
 
-                    // Wait for removal to complete
-                    cy.wait(500);
-
                     // Check if count decreased (if removal worked)
-                    cy.get('[data-testid="constructor-item"]').then(($newItems) => {
+                    cy.get('@constructorItems').then(($newItems) => {
                         const newCount = $newItems.length;
                         if (newCount < initialCount) {
                             cy.log(`Successfully removed ingredient. Count: ${initialCount} -> ${newCount}`);
@@ -563,8 +557,8 @@ describe('Constructor Page Functionality', () => {
             // Add ingredient
             cy.get('@ingredientItems').first().dragTo('[data-testid="constructor-section"]');
 
-            // Wait for ingredient to be added
-            cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
+            // Wait for ingredient to be added and create alias
+            cy.get('[data-testid="constructor-item"]').as('constructorItems').should('have.length.greaterThan', 0);
 
             // Check if counter is visible
             cy.get('body').then(($body) => {
@@ -576,21 +570,18 @@ describe('Constructor Page Functionality', () => {
                     cy.get('@ingredientItems').first().find('[data-testid="counter"]').should('be.visible');
 
                     // Try to remove ingredient
-                    cy.get('[data-testid="constructor-item"]').first().then(($item) => {
+                    cy.get('@constructorItems').first().then(($item) => {
                         const buttons = $item.find('button');
                         const closeButtons = $item.find('[data-testid="remove-ingredient"]');
 
                         if (buttons.length > 0) {
-                            cy.get('[data-testid="constructor-item"]').first().find('button').last().click();
+                            cy.get('@constructorItems').first().find('button').last().click();
                         } else if (closeButtons.length > 0) {
-                            cy.get('[data-testid="constructor-item"]').first().find('[data-testid="remove-ingredient"]').click();
+                            cy.get('@constructorItems').first().find('[data-testid="remove-ingredient"]').click();
                         } else {
                             cy.log('No removal mechanism found, skipping counter test');
                             return;
                         }
-
-                        // Wait for removal
-                        cy.wait(500);
 
                         // Check if counter is removed or decreased
                         cy.get('body').then(($newBody) => {
@@ -605,7 +596,7 @@ describe('Constructor Page Functionality', () => {
                 } else {
                     // No counters found, but test can still pass
                     cy.log('No counters found, ingredient removal test completed');
-                    cy.get('[data-testid="constructor-item"]').should('have.length.greaterThan', 0);
+                    cy.get('@constructorItems').should('have.length.greaterThan', 0);
                 }
             });
         });
@@ -627,9 +618,9 @@ describe('Constructor Page Functionality', () => {
             // Step 3: Verify ingredients are in constructor
             cy.get('[data-testid="constructor-list"]').children().should('have.length.greaterThan', 1);
 
-            // Step 4: Verify price calculation
-            cy.get('[data-testid="total-price"]').should('be.visible');
-            cy.get('[data-testid="total-price"]').invoke('text').then((priceText) => {
+            // Step 4: Verify price calculation and create alias
+            cy.get('[data-testid="total-price"]').as('totalPrice').should('be.visible');
+            cy.get('@totalPrice').invoke('text').then((priceText) => {
                 const price = parseInt(priceText.replace(/\D/g, ''));
                 expect(price).to.be.greaterThan(0);
                 cy.log(`Total price calculated: ${price}`);
@@ -638,21 +629,18 @@ describe('Constructor Page Functionality', () => {
             // Step 5: Create order
             cy.get('@orderButton').click();
 
-            // Wait for any response
-            cy.wait(3000);
-
             // Step 6: Check what happened after order creation
             cy.get('body').then(($body) => {
                 if ($body.find('[data-testid="order-details-modal"]').length > 0) {
-                    // Modal appeared, test it
-                    cy.get('[data-testid="order-details-modal"]').should('be.visible');
+                    // Modal appeared, create alias and test it
+                    cy.get('[data-testid="order-details-modal"]').as('orderModal').should('be.visible');
                     cy.get('[data-testid="order-number"]').should('be.visible');
                     cy.get('[data-testid="order-status"]').should('be.visible');
                     cy.log('Order details modal appeared successfully');
 
                     // Step 7: Close modal
                     cy.get('[data-testid="modal-close-button"]').click();
-                    cy.get('[data-testid="order-details-modal"]').should('not.exist');
+                    cy.get('@orderModal').should('not.exist');
                     cy.log('Modal closed successfully');
 
                     // Step 8: Check if constructor was cleared
