@@ -18,7 +18,7 @@ const ConstructorList = ({ ingredients }: BurgerConstructorProps) => {
     };
 
     return (
-        <div className={styles.constructor_list}>
+        <div className={styles.constructor_list} data-testid="constructor-list">
             {
                 ingredients.map((item, index) => (
                     <ConstructorListItem key={item.id} index={index} onMove={handleMove} position={defineType(index, ingredients.length)} item={item} />

@@ -24,7 +24,7 @@ const BurgerIngredients = () => {
     }
 
     return (
-        <section className={styles.ingredients_section}>
+        <section className={styles.ingredients_section} data-testid="ingredients-section">
             <IngredientsMenu />
             <IngredientsList
                 ingredients={ingredients}

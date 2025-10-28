@@ -30,10 +30,10 @@ const Modal = ({ title, children, onClose }: ModalProps) => {
 
     const modalContent = (
         <ModalOverlay onClose={onClose}>
-            <div className={styles.modal} onClick={handlePropagation}>
+            <div className={styles.modal} onClick={handlePropagation} data-testid="order-details-modal">
                 <div className={styles.header}>
                     {title && <h2 className="text text_type_main-large">{title}</h2>}
-                    <div className={styles.closeButton} onClick={onClose}>
+                    <div className={styles.closeButton} onClick={onClose} data-testid="modal-close-button">
                         <CloseIcon type="primary" />
                     </div>
                 </div>

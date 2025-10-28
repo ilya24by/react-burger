@@ -76,11 +76,11 @@ const BurgerConstructor = () => {
     }
 
     return (
-        <section ref={el => { drop(el) }} className={styles.constructor_section} style={{ opacity: isOver ? 0.5 : 1 }}>
+        <section ref={el => { drop(el) }} className={styles.constructor_section} style={{ opacity: isOver ? 0.5 : 1 }} data-testid="constructor-section">
             <ConstructorList ingredients={constructorIngredients || []} />
             <div className={styles.order}>
-                <Price price={price} size="large" />
-                <Button htmlType="button" type="primary" size="medium" onClick={handleOrderDetails}>
+                <Price price={price} size="large" data-testid="total-price" />
+                <Button htmlType="button" type="primary" size="medium" onClick={handleOrderDetails} data-testid="order-button">
                     {isLoading ? 'Загрузка...' : 'Оформить заказ'}
                 </Button>
             </div>

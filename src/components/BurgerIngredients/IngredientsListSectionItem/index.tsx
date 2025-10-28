@@ -18,9 +18,9 @@ const IngredientsListSectionItem = ({ ingredient }: IngredientListSectionItemPro
     const { name, price, image } = ingredient;
 
     return (
-        <div ref={el => { dragRef(el) }} className={styles.ingredients_list_section_item} style={{ cursor: 'pointer' }}>
+        <div ref={el => { dragRef(el) }} className={styles.ingredients_list_section_item} style={{ cursor: 'pointer' }} data-testid="ingredient-item">
             <Link to={`/ingredients/${ingredient._id}`} state={{ backgroundLocation: location }} style={{ textDecoration: 'none', color: 'inherit' }}>
-                {!!counter && <Counter count={counter} size="default" extraClass="m-1" />}
+                {!!counter && <Counter count={counter} size="default" extraClass="m-1" data-testid="counter" />}
                 <img src={image} alt={name} />
                 <p className="text text_type_main-default mb-2 text-center">{name}</p>
                 <Price price={price} />
